@@ -6,6 +6,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 RUN_ENV = 'dev'
 
+PROJ_NAME = 'FlexDx-Xpert-Scale-Up'
+
 ENV = xpt_conf.env[RUN_ENV]
 
 DEBUG = ENV['debug']
@@ -58,7 +60,7 @@ USE_TZ = True
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/var/www/example.com/media/"
-MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR), 'xpert_su', 'media')
+MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR), PROJ_NAME, 'media')
  
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
@@ -69,7 +71,7 @@ MEDIA_URL = '/media/'
 # Don't put anything in this directory yourself; store your static files
 # in apps' "static/" subdirectories and in STATICFILES_DIRS.
 # Example: "/var/www/example.com/static/"
-STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR), 'xpert_su', 'static')
+STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR), PROJ_NAME, 'static')
 
 # URL prefix for static files.
 # Example: "http://example.com/static/", "http://static.example.com/"
@@ -77,7 +79,7 @@ STATIC_URL = '/static/'
 
 # Additional locations of static files
 STATICFILES_DIRS = (
-    os.path.join(os.path.dirname(BASE_DIR), 'xpert_su', 'async','static'),
+    os.path.join(os.path.dirname(BASE_DIR), PROJ_NAME, 'async','static'),
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
@@ -106,7 +108,7 @@ TEMPLATES = [
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
             # insert your TEMPLATE_DIRS here
-            os.path.join(os.path.dirname(BASE_DIR), 'xpert_su', 'templates')
+            os.path.join(os.path.dirname(BASE_DIR), PROJ_NAME, 'templates')
         ],
         'APP_DIRS': True,
         'OPTIONS': {

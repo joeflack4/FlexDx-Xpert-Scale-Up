@@ -11,4 +11,4 @@ env = {
     }
 }
 
-secret_key = ''
+secret_key = 'THISISANOTSOSECRETKEY'
