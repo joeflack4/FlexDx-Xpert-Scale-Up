@@ -1,0 +1,62 @@
+.xp_tooltip {
+    display:none;
+    background: rgb(28,73,130);
+    background: rgba(28,73,130,.95);
+    border-radius: 5px;
+    bottom: 26px;
+    color: #EEEEEE;
+    padding: 5px 15px;
+    position: absolute;
+    z-index: 98;
+    border:2px solid white;
+    vertical-align:middle;
+    text-align:center;
+    font-size:12px;
+    font-weight:normal;
+}
+
+.tooltipsrc {
+    /*cursor:help;*/
+    /*text-decoration:underline;*/
+}
+
+div#tt_a1, div#tt_b1, div#tt_c1 {
+    width: 760px;
+    height: 32px;
+}
+
+div#tt_a2, div#tt_b2, div#tt_c2 {
+    width: 300px;
+    height: 16px;
+}
+
+div#tt_a3, div#tt_b3, div#tt_c3 {
+    width: 760px;
+    height: 16px;
+}
+
+div#tt_a4, div#tt_b4, div#tt_c4 {
+    width: 760px;
+    height: 32px;
+}
+
+div#tt_a5, div#tt_b5, div#tt_c5 {
+    width: 760px;
+    height: 32px;
+}
+
+div#tt_a6, div#tt_b6, div#tt_c6 {
+    width: 560px;
+    height: 32px;
+}
+
+div#tt_a7, div#tt_b7, div#tt_c7 {
+    width: 660px;
+    height: 46px;
+}
+
+div#tt_a8, div#tt_b8, div#tt_c8 {
+    width: 520px;
+    height: 32px;
+}
+

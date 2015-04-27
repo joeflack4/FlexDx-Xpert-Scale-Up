@@ -1,0 +1,42 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" >
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content='width=device-width, initial-scale=1'>
+<title>FlexDx Xpert Scale-Up - {% block title %}{% endblock %}</title>
+<link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
+<link rel='stylesheet' type='text/css' href='{% static "css/modelsheet.css" %}' />
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
+{% block jscript %}{% endblock %}
+
+</head>
+<body>
+
+<div id='outerbox' class='container'>
+    <div class='row'>
+        <div class='col-md-offset-2 col-md-7 splash_box'>
+            <div class='row'>
+
+                <div class='col-lg-offset-1 col-lg-10'>
+                    <noscript><h1><p style='text-align:center;color:white;'>This model needs a Javascript enabled browser</p></h1></noscript>
+                </div>
+        
+            </div>
+
+
+            <img src="{% static 'images/XpertScaleUp.png' %}" alt='FlexDX xpert Scale-Up Logo' />
+            <div class='splash_text'>
+FlexDx is a tool that allows non-expert users to define their local situation according to four key parameters: TB incidence, proportion of new TB cases that are multidrug-resistant (MDR), adult human immunodeficiency virus (HIV) prevalence, and per-patient cost of first-line therapy. This tool then links a decision analysis describing nine different TB diagnostic strategies to a transmission model that provides five-year estimates of TB incidence, mortality, and control costs in any user-specified scenario. 
+            </div>
+            <a href="{% url 'async.views.home_page' %}" class='btn btn-large btn-primary'>Xpert Scale-Up Model</a>
+            <a href="{% url 'async.views.homebrew_page' %}" class='btn btn-large btn-primary'>User Defined Scenarios</a>
+        </div>
+    </div>
+</div>
+
+</body>
+
+</html>

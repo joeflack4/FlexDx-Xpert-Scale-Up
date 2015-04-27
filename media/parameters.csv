@@ -1,0 +1,51 @@
+NAME, VALUE, DESCRIPTION
+    react ,0.0005, HIV-negative reactivation rate
+    react_h ,0.05, HIV-positive reactivation rate
+    relbeta_sn ,0.22, relative infectiousness of smear-neg TB: incl extrapulm
+    rapid ,0.14, proportion of infections w/ primary progression
+    rapid_h ,0.47, primary progression proportion: HIV+
+    prot ,0.79, reduction in rate of reinfection if LTBI & HIV-neg
+    cure_sn ,0.267," ""self-cure"" rate: smear-neg (20% CFR at 3 yrs)"
+    cure_sp ,0.1, self-cure rate: smear-pos (70% CFR at 3 yrs)
+    mort , 1.0/55.           , background mortality 
+    mort_h ,0.05, mortality/prevalence of HIV
+    mort_sn ,0.0667, mortality rate: smear-negative: 20% CFR at 3 yrs
+    mort_sp ,0.233, mortality rate: smear-positive: 70% CFR at 3 yrs
+    mort_tbh ,1.01, assume 1-year duration of TB before uniform death if HIV+
+    prop_inf ,0.63, proportion of incident cases that are smear-pos
+    prop_inf_h ,0.5, proportion smear-pos if HIV-pos
+    fail_s ,0.04, probability of failure or relapse: DS-TB
+    fail_rt ,0.04, probability of failure or relapse: retreatment DS-TB
+    fail_i1 ,0.21, prob of failure or relapse: INHr treated with 1st-line
+    fail_i2 ,0.16, prob of failure or relapse: INHr treated with streptomycin
+    fail_m1 ,0.5, prob of failure or relapse: MDR-TB treated with 1st-line
+    fail_m2 , 28./93.        , prob of failure or relapse: MDR-TB treated w/ 2nd-line
+    predx_dur ,0.75, duration of infectiousness before seeking care: HIV-
+    predx_dur_h , 1./12      , duration of infectiousness before seeking care: HIV+
+    acq_s , 0.003/0.04     , proportion of failed treatments acquiring resistance: DS-TB
+    acq_mdr ,0.33, proportion of acq resi among DS-TB that is MDR (vs. INH-mono)
+    acq_i1 , 0.045/0.5   , proportion of failed treatments acquiring resistance: INHr tx w/ 1st-line
+    acq_i2 , 0.017/0.16   , proportion of failed treatments acquiring resistance: INHr tx w/ 2nd-line
+    defvfail_s , 6./7.       , proportion of inappropriate tx's that are default (vs. failure): DS-TB
+    defvfail_i , 2./3.       , proportion of inapp tx's that are default: INHr
+    defvfail_m , 11./25.     , proportion of inapp tx's that are default: MDR
+    dx_rate ,5.001, diagnostic rate: 5 diagnostic attempts per year
+    ltfu ,0.15, 15% initial default proportion: smear/GXP
+    ltfu_cx ,0.25, 25% initial default proportion: culture
+    emp_tx ,0.25, 25% of pts treated empirically
+    cx_sens ,0.85, Sensitivity of single culture
+    gxp_sens ,0.72, Sensitivity of single GXP
+    sm_spec ,0.98, specificity of smear
+    cx_spec ,0.98, specificity of culture
+    gxp_spec ,0.98, specificity of GXP
+    cxr_sens ,0.98, sensitivity of MODS for RIF resistance
+    cxi_sens ,0.98, sensitivity of MODS for INH resistance
+    cxr_spec ,0.994, specificity of MODS for RIF
+    cxi_spec ,0.958, specificity of MODS for INH
+    gxr_sens ,0.944, sensitivity of GXP for RIF
+    gxr_spec ,0.983, specificity of GXP for RIF
+    t_smgxp , 7.0/365        , delay from smear/GXP result to tx: 7 days
+    t_cx , 30.0/365          , delay from culture result to tx: 30 days
+    t_cxr , 30.0/365         , time to culture-based DST is the same (30 days)
+    dur_fail ,6.001, number of months until failing cases are re-evaluated
+    prop_cough ,0.01, proportion of people w/ non-TB cough eval'd per yr

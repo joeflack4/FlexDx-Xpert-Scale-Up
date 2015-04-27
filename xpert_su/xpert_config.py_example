@@ -1,0 +1,14 @@
+env = { 
+    
+    'dev' : { 
+        "debug": True,
+        'allowed_hosts' : '',
+    },
+
+    'prod' : {
+        "debug": False,
+        'allowed_hosts' : '',
+    }
+}
+
+secret_key = ''

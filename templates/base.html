@@ -1,0 +1,75 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" >
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content='width=device-width, initial-scale=1'>
+<title>FlexDx Xpert Scale-Up - {% block title %}{% endblock %}</title>
+<link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
+<link rel='stylesheet' type='text/css' href='{% static "css/modelsheet.css" %}' />
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
+{% block jscript %}{% endblock %}
+
+</head>
+<body>
+
+<div id='outerbox' class='container'>
+    
+    <div id='titlebox' class='row'>
+
+        <div class='col-lg-7'>
+            <img src="{% static 'images/XpertScaleUp.png' %}" alt='FlexDX Xpert Scale-Up Logo'/>
+        </div> <!-- title -->
+
+        <!--<div class='col-lg-offset-1 col-lg-3'>
+            <div id='survey_console'>
+                <p class='text-center'>Help us improve this model; click <a href='https://www.surveymonkey.com/s/JV6WQY9' target='_blank'>here</a> to take our survey</p>
+            </div>
+        </div>-->
+
+    </div>
+
+    <hr class='divider' />
+
+    <div class='row'>
+
+        <div class='col-lg-offset-3 col-lg-6'>
+            {% block widen %}{% endblock %}
+        </div>
+
+    </div>
+
+    <div class='row'>
+
+        <div class='col-lg-5'>
+            {% block pagetitle %}{% endblock %}</div>
+
+        <div class='col-lg-offset-2 col-lg-5 navigation_buttons' role='navigation'>
+            {% block nav_buttons %}{% endblock %}
+        </div>
+
+    </div>
+
+
+
+    {% block content %}{% endblock %}
+
+    <div class='row' id='logobar'>
+        <div class='col-lg-offset-2 col-lg-1'>
+            <a class='noborder' title='Johns Hopkins School of Public Health' href='http://www.jhsph.edu'>
+                <img class='logo' src='{% static "images/jhsph-logo.png" %}' /></a>
+        </div>
+        <div class='col-lg-offset-3 col-lg-1'>
+            <a class='noborder' title='National Institutes of Health' href='http://www.nih.gov'>
+                <img class='logo' src='{% static "images/nih_logo.jpg" %}' /></a>
+        </div>
+    </div> <!-- .row#logobar -->
+
+</div> <!-- #outerbox.container-fluid -->
+
+
+<script src="{% static 'jscript/bootstrap.min.js' %}"></script>
+</body>
+</html>

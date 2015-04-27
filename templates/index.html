@@ -1,0 +1,615 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block title %}Home{% endblock %}
+
+{% block jscript %}
+<script src='{% static "jscript/index.js" %}' type='text/javascript'></script>
+<script src="{% static 'jscript/homebrew.js' %}" type='text/javascript'></script>
+<link href="{% static 'css/homebrew.css' %}" rel="stylesheet">
+<script src="{% static 'jscript/jquery-ui-1.11.2.custom/jquery-ui.min.js' %}" type='text/javascript'></script>
+<link href="{% static 'jscript/jquery-ui-1.11.2.custom/jquery-ui.min.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block nav_buttons %}
+    <a href="{% url 'async.views.help_page' %}" class='btn btn-primary'>Help</a>
+    <a href="{% url 'async.views.about_page' %}" class='btn btn-primary'>About</a>
+    <a id='hb_input_button' class='btn btn-primary'>User Defined Strategy <small><em>Early Beta</em></small></a>
+{% endblock %}
+
+{% block pagetitle %}
+<h2>Model Inputs</h2>
+{% endblock %}
+
+{% block widen %}
+<small>This site is mobile enabled; if boxes don't show up side-by-side, please widen your browser window</small>
+{% endblock %}
+
+{% block content %}
+
+    <div class='row'>
+    
+        <div id='left_box' class='col-lg-7'>
+
+
+
+            <div id='country_input'>
+                <label for='country_select'>(Optional) Select a country</label>
+                <select name='country' id='country_select'>
+                    <option value='NAC'>Adjust inputs manually</option>
+                </select>
+                <button class='btn btn-sm btn-success run_uncertain' disabled='true'>Country Pre-set</button>
+            </div>
+            <hr class='divider'/>
+
+            <form name='input_form' method='get' action='{% url 'async.views.model_page' %}'>
+                <div id='main_inputs'>
+                    <ul id='outer_inputs'>
+                        <li class='single'><input class='single' id='o{{ form.type_select.0.index }}' type='radio' name='{{ form.type_select.0.name }}' value='{{ form.type_select.0.choice_value }}'>
+                            <label for ='o{{ form.type_select.0.index }}'><span id='opt10'>{{ form.type_select.0.choice_label }}</span></label>
+                        </li>
+                        <ul id='inputs'>
+                            {% for r in form.int_select %}
+                                <li>
+                                {% if forloop.first %}
+                                    <input id='i{{ r.index }}' type='radio' name='{{ r.name }}' value='{{ r.choice_value }}' checked='checked'>
+                                {% else %}
+                                    <input id='i{{ r.index }}' type='radio' name='{{ r.name }}' value='{{ r.choice_value }}'>
+                                {% endif %}
+                                <label for='i{{ r.index }}'><span id='opt{{ r.choice_value }}'>{{ r.choice_label }}</span></label></li>
+                            {% endfor %}
+                        </ul>
+                        <li class='all'>
+                            <input id='o{{ form.type_select.1.index}}' class='all' type='radio' name='{{ form.type_select.1.name }}' value='{{ form.type_select.1.choice_value }}' checked='checked'>
+                            <label for='o{{ form.type_select.1.index }}'><span id='opt9'>{{ form.type_select.1.choice_label }}</span></label>
+                        </li>
+                        <div id='epi_model_inputs'>
+                        <p class='head'>Epidemiological Scenario</p>
+                        <li>
+                            {{ form.t_inc.label_tag }} {{ form.t_inc.as_widget }}
+                        </li>
+                        <li>
+                            {{ form.t_mdr.label_tag }} {{ form.t_mdr.as_widget }}
+                        </li>
+                        <li>
+                            {{ form.t_hiv.label_tag }} {{ form.t_hiv.as_widget }}
+                        </li>
+                        <p class='head'>Costs (please include ALL costs, including labor, infrastructure, supplies, etc.)</p>
+                        <li>{{ form.t_drug1_cost.label_tag }} {{ form.t_drug1_cost.as_widget }}</li>
+                        <li>{{ form.t_drug2_cost.label_tag }} {{ form.t_drug2_cost.as_widget }}</li>
+                        <li>{{ form.t_drug3_cost.label_tag }} {{ form.t_drug3_cost.as_widget }}</li>
+                        <li>{{ form.t_outpt_cost.label_tag }} {{ form.t_outpt_cost.as_widget }}</li>
+                        <li>{{ form.t_sm_cost.label_tag }} {{ form.t_sm_cost.as_widget }}</li>
+                        <li>{{ form.t_gxp_cost.label_tag }} {{ form.t_gxp_cost.as_widget }}</li>
+                        <li>{{ form.t_sdgxp_cost.label_tag }} {{ form.t_sdgxp_cost.as_widget }}</li>
+                        </div>
+                    </ul>
+
+                    <button class='btn btn-sm btn-primary' type='submit'>Run Model With User Inputs</button>
+                    <button class='btn btn-sm btn-success run_uncertain' type='button' disabled='true'>Country Pre-set</button>
+                    <button class='btn btn-sm btn-default' id='reset_btn' type='reset'>Reset</button>
+
+                </div>
+                {% csrf_token %}
+            </form>
+        </div> <!--left_box-->
+        
+        <div class='col-lg-5 desc_box_scroll' id='desc_box'>
+            <div id='desc_strat_box'>
+                <div class='desc_strat_title'>
+                    <p>Brief Description of Diagnostic Strategies <span id='desc_strat_icon' class='glyphicon glyphicon-chevron-up'></span></p>
+                </div>
+            
+                <div class='desc_strat_content'>
+                    <div>
+                    </div>
+                </div>
+                            
+
+            </div>
+        </div>
+    </div> <!-- row -->
+
+    <div class='row' id='homebrew_input_box'> <!-- Homebrew begins -->
+
+
+        <div class='col-lg-8'>
+       
+            <div id='diag_box'>
+                <div id='diag_title'>
+                    <p>Used Defined Strategy Inputs <span id='diag_icon' class='glyphicon glyphicon-chevron-up'></span></p>
+                </div>
+                <ul id="menu1a" class='test_sel_menu'>
+                    <li class='menu_heading'>Diagnostic Test</li>
+                    <li class='menu_item'>Smear
+                        <ul>
+                            <li class='menu_heading'>DST if positive</li>
+                            <li class='menu_item' id='mn1a_sm_none'>None</li>
+                            <li class='menu_item' id='mn1a_sm_gxp'>GXP</li>
+                            <li class='menu_item' id='mn1a_sm_lpa'>LPA</li>
+                            <li class='menu_item' id='mn1a_sm_cul'>Culture</li>
+                            <li class='menu_item' id='mn1a_sm_ud'>User Defined</li>
+                        </ul>
+                    </li>
+                    <li class='menu_item'>GXP                        
+                        <ul>
+                            <li class='menu_heading'>DST if positive</li>
+                            <li class='menu_item' id='mn1a_gxp_none'>None</li>
+                            <li class='menu_item' id='mn1a_gxp_gxp'>GXP</li>
+                            <li class='menu_item' id='mn1a_gxp_lpa'>LPA</li>
+                            <li class='menu_item' id='mn1a_gxp_cul'>Culture</li>
+                            <li class='menu_item' id='mn1a_gxp_ud'>User Defined</li>
+                        </ul>
+                    </li>
+                    <li class='menu_item' id='mn1a_cxr_none'>CXR</li>
+                    <li class='menu_item'>Culture                        
+                        <ul>
+                            <li class='menu_heading'>DST if positive</li>
+                            <li class='menu_item' id='mn1a_cul_none'>None</li>
+                            <li class='menu_item' id='mn1a_cul_gxp'>GXP</li>
+                            <li class='menu_item' id='mn1a_cul_lpa'>LPA</li>
+                            <li class='menu_item' id='mn1a_cul_cul'>Culture</li>
+                            <li class='menu_item' id='mn1a_cul_ud'>User Defined</li>
+                        </ul></li>
+                    <li class='menu_item'>LAM                        
+                        <ul>
+                            <li class='menu_heading'>DST if positive</li>
+                            <li class='menu_item' id='mn1a_lam_none'>None</li>
+                            <li class='menu_item' id='mn1a_lam_gxp'>GXP</li>
+                            <li class='menu_item' id='mn1a_lam_lpa'>LPA</li>
+                            <li class='menu_item' id='mn1a_lam_cul'>Culture</li>
+                            <li class='menu_item' id='mn1a_lam_ud'>User Defined</li>
+                        </ul></li>
+                    <li class='menu_item'><span id='m1a_ud1_name'>User Test 1</span>                        
+                        <ul>
+                            <li class='menu_heading'>DST if positive</li>
+                            <li class='menu_item' id='mn1a_ud1_none'>None</li>
+                            <li class='menu_item' id='mn1a_ud1_gxp'>GXP</li>
+                            <li class='menu_item' id='mn1a_ud1_lpa'>LPA</li>
+                            <li class='menu_item' id='mn1a_ud1_cul'>Culture</li>
+                            <li class='menu_item' id='mn1a_ud1_ud'>User Defined</li>
+                        </ul></li>
+                    <li class='menu_item'><span id='m1a_ud2_name'>User Test 2</span>                        
+                        <ul>
+                            <li class='menu_heading'>DST if positive</li>
+                            <li class='menu_item' id='mn1a_ud2_none'>None</li>
+                            <li class='menu_item' id='mn1a_ud2_gxp'>GXP</li>
+                            <li class='menu_item' id='mn1a_ud2_lpa'>LPA</li>
+                            <li class='menu_item' id='mn1a_ud2_cul'>Culture</li>
+                            <li class='menu_item' id='mn1a_ud2_ud'>User Defined</li>
+                        </ul></li>
+                    <li class='menu_item'><span id='m1a_ud3_name'>User Test 3</span>                      
+                        <ul>
+                            <li class='menu_heading'>DST if positive</li>
+                            <li class='menu_item' id='mn1a_ud3_none'>None</li>
+                            <li class='menu_item' id='mn1a_ud3_gxp'>GXP</li>
+                            <li class='menu_item' id='mn1a_ud3_lpa'>LPA</li>
+                            <li class='menu_item' id='mn1a_ud3_cul'>Culture</li>
+                            <li class='menu_item' id='mn1a_ud3_ud'>User Defined</li>
+                        </ul></li>
+                </ul>
+                
+                <ul id="menu1b" class='test_sel_menu'>
+                    <li class='menu_heading'>Diagnostic Test</li>
+                    <li class='menu_item'>Smear
+                        <ul>
+                            <li class='menu_heading'>DST if positive</li>
+                            <li class='menu_item' id='mn1b_sm_none'>None</li>
+                            <li class='menu_item' id='mn1b_sm_gxp'>GXP</li>
+                            <li class='menu_item' id='mn1b_sm_lpa'>LPA</li>
+                            <li class='menu_item' id='mn1b_sm_cul'>Culture</li>
+                            <li class='menu_item' id='mn1b_sm_ud'>User Defined</li>
+                        </ul>
+                    </li>
+                    <li class='menu_item'>GXP                        
+                        <ul>
+                            <li class='menu_heading'>DST if positive</li>
+                            <li class='menu_item' id='mn1b_gxp_none'>None</li>
+                            <li class='menu_item' id='mn1b_gxp_gxp'>GXP</li>
+                            <li class='menu_item' id='mn1b_gxp_lpa'>LPA</li>
+                            <li class='menu_item' id='mn1b_gxp_cul'>Culture</li>
+                            <li class='menu_item' id='mn1b_gxp_ud'>User Defined</li>
+                        </ul>
+                    </li>
+                    <li class='menu_item' id='mn1b_cxr_none'>CXR</li>
+                    <li class='menu_item'>Culture                        
+                        <ul>
+                            <li class='menu_heading'>DST if positive</li>
+                            <li class='menu_item' id='mn1b_cul_none'>None</li>
+                            <li class='menu_item' id='mn1b_cul_gxp'>GXP</li>
+                            <li class='menu_item' id='mn1b_cul_lpa'>LPA</li>
+                            <li class='menu_item' id='mn1b_cul_cul'>Culture</li>
+                            <li class='menu_item' id='mn1b_cul_ud'>User Defined</li>
+                        </ul></li>
+                    <li class='menu_item'><span id='m1b_ud1_name'>User Test 1</span>                        
+                        <ul>
+                            <li class='menu_heading'>DST if positive</li>
+                            <li class='menu_item' id='mn1b_ud1_none'>None</li>
+                            <li class='menu_item' id='mn1b_ud1_gxp'>GXP</li>
+                            <li class='menu_item' id='mn1b_ud1_lpa'>LPA</li>
+                            <li class='menu_item' id='mn1b_ud1_cul'>Culture</li>
+                            <li class='menu_item' id='mn1b_ud1_ud'>User Defined</li>
+                        </ul></li>
+                    <li class='menu_item'><span id='m1b_ud2_name'>User Test 2</span>                        
+                        <ul>
+                            <li class='menu_heading'>DST if positive</li>
+                            <li class='menu_item' id='mn1b_ud2_none'>None</li>
+                            <li class='menu_item' id='mn1b_ud2_gxp'>GXP</li>
+                            <li class='menu_item' id='mn1b_ud2_lpa'>LPA</li>
+                            <li class='menu_item' id='mn1b_ud2_cul'>Culture</li>
+                            <li class='menu_item' id='mn1b_ud2_ud'>User Defined</li>
+                        </ul></li>
+                    <li class='menu_item'><span id='m1b_ud3_name'>User Test 3</span>                      
+                        <ul>
+                            <li class='menu_heading'>DST if positive</li>
+                            <li class='menu_item' id='mn1b_ud3_none'>None</li>
+                            <li class='menu_item' id='mn1b_ud3_gxp'>GXP</li>
+                            <li class='menu_item' id='mn1b_ud3_lpa'>LPA</li>
+                            <li class='menu_item' id='mn1b_ud3_cul'>Culture</li>
+                            <li class='menu_item' id='mn1b_ud3_ud'>User Defined</li>
+                        </ul></li>
+                </ul>
+                <ul id="menu2a" class='test_sel_menu'>
+                    <li class='menu_heading'>Diagnostic Test 2</li>
+                    <li class='menu_item' id='mn2a_none_none'>None</li>
+                    <li class='menu_item'>Smear
+                        <ul>
+                            <li class='menu_heading'>DST if positive</li>
+                            <li class='menu_item' id='mn2a_sm_none'>None</li>
+                            <li class='menu_item' id='mn2a_sm_gxp'>GXP</li>
+                            <li class='menu_item' id='mn2a_sm_lpa'>LPA</li>
+                            <li class='menu_item' id='mn2a_sm_cul'>Culture</li>
+                            <li class='menu_item' id='mn2a_sm_ud'>User Defined</li>
+                        </ul>
+                    </li>
+                    <li class='menu_item'>GXP                        
+                        <ul>
+                            <li class='menu_heading'>DST if positive</li>
+                            <li class='menu_item' id='mn2a_gxp_none'>None</li>
+                            <li class='menu_item' id='mn2a_gxp_gxp'>GXP</li>
+                            <li class='menu_item' id='mn2a_gxp_lpa'>LPA</li>
+                            <li class='menu_item' id='mn2a_gxp_cul'>Culture</li>
+                            <li class='menu_item' id='mn2a_gxp_ud'>User Defined</li>
+                        </ul>
+                    </li>
+                    <li class='menu_item'>Culture                        
+                        <ul>
+                            <li class='menu_heading'>DST if positive</li>
+                            <li class='menu_item' id='mn2a_cul_none'>None</li>
+                            <li class='menu_item' id='mn2a_cul_gxp'>GXP</li>
+                            <li class='menu_item' id='mn2a_cul_lpa'>LPA</li>
+                            <li class='menu_item' id='mn2a_cul_cul'>Culture</li>
+                            <li class='menu_item' id='mn2a_cul_ud'>User Defined</li>
+                        </ul></li>
+                    <li class='menu_item'>LAM                        
+                        <ul>
+                            <li class='menu_heading'>DST if positive</li>
+                            <li class='menu_item' id='mn2a_lam_none'>None</li>
+                            <li class='menu_item' id='mn2a_lam_gxp'>GXP</li>
+                            <li class='menu_item' id='mn2a_lam_lpa'>LPA</li>
+                            <li class='menu_item' id='mn2a_lam_cul'>Culture</li>
+                            <li class='menu_item' id='mn2a_lam_ud'>User Defined</li>
+                        </ul></li>
+                    <li class='menu_item'><span id='m2a_ud1_name'>User Test 1</span>                        
+                        <ul>
+                            <li class='menu_heading'>DST if positive</li>
+                            <li class='menu_item' id='mn2a_ud1_none'>None</li>
+                            <li class='menu_item' id='mn2a_ud1_gxp'>GXP</li>
+                            <li class='menu_item' id='mn2a_ud1_lpa'>LPA</li>
+                            <li class='menu_item' id='mn2a_ud1_cul'>Culture</li>
+                            <li class='menu_item' id='mn2a_ud1_ud'>User Defined</li>
+                        </ul></li>
+                    <li class='menu_item'><span id='m2a_ud2_name'>User Test 2</span>                        
+                        <ul>
+                            <li class='menu_heading'>DST if positive</li>
+                            <li class='menu_item' id='mn2a_ud2_none'>None</li>
+                            <li class='menu_item' id='mn2a_ud2_gxp'>GXP</li>
+                            <li class='menu_item' id='mn2a_ud2_lpa'>LPA</li>
+                            <li class='menu_item' id='mn2a_ud2_cul'>Culture</li>
+                            <li class='menu_item' id='mn2a_ud2_ud'>User Defined</li>
+                        </ul></li>
+                    <li class='menu_item'><span id='m2a_ud3_name'>User Test 3</span>                      
+                        <ul>
+                            <li class='menu_heading'>DST if positive</li>
+                            <li class='menu_item' id='mn2a_ud3_none'>None</li>
+                            <li class='menu_item' id='mn2a_ud3_gxp'>GXP</li>
+                            <li class='menu_item' id='mn2a_ud3_lpa'>LPA</li>
+                            <li class='menu_item' id='mn2a_ud3_cul'>Culture</li>
+                            <li class='menu_item' id='mn2a_ud3_ud'>User Defined</li>
+                        </ul></li>
+                </ul>
+
+
+                <ul id="menu2b" class='test_sel_menu'>
+                    <li class='menu_heading'>Diagnostic Test 2</li>
+                    <li class='menu_item' id='mn2b_none_none'>None</li>
+                    <li class='menu_item'>Smear
+                        <ul>
+                            <li class='menu_heading'>DST if positive</li>
+                            <li class='menu_item' id='mn2b_sm_none'>None</li>
+                            <li class='menu_item' id='mn2b_sm_gxp'>GXP</li>
+                            <li class='menu_item' id='mn2b_sm_lpa'>LPA</li>
+                            <li class='menu_item' id='mn2b_sm_cul'>Culture</li>
+                            <li class='menu_item' id='mn2b_sm_ud'>User Defined</li>
+                        </ul>
+                    </li>
+                    <li class='menu_item'>GXP                        
+                        <ul>
+                            <li class='menu_heading'>DST if positive</li>
+                            <li class='menu_item' id='mn2b_gxp_none'>None</li>
+                            <li class='menu_item' id='mn2b_gxp_gxp'>GXP</li>
+                            <li class='menu_item' id='mn2b_gxp_lpa'>LPA</li>
+                            <li class='menu_item' id='mn2b_gxp_cul'>Culture</li>
+                            <li class='menu_item' id='mn2b_gxp_ud'>User Defined</li>
+                        </ul>
+                    </li>
+                    <li class='menu_item'>Culture                        
+                        <ul>
+                            <li class='menu_heading'>DST if positive</li>
+                            <li class='menu_item' id='mn2b_cul_none'>None</li>
+                            <li class='menu_item' id='mn2b_cul_gxp'>GXP</li>
+                            <li class='menu_item' id='mn2b_cul_lpa'>LPA</li>
+                            <li class='menu_item' id='mn2b_cul_cul'>Culture</li>
+                            <li class='menu_item' id='mn2b_cul_ud'>User Defined</li>
+                        </ul></li>
+                    <li class='menu_item'><span id='m2b_ud1_name'>User Test 1</span>                        
+                        <ul>
+                            <li class='menu_heading'>DST if positive</li>
+                            <li class='menu_item' id='mn2b_ud1_none'>None</li>
+                            <li class='menu_item' id='mn2b_ud1_gxp'>GXP</li>
+                            <li class='menu_item' id='mn2b_ud1_lpa'>LPA</li>
+                            <li class='menu_item' id='mn2b_ud1_cul'>Culture</li>
+                            <li class='menu_item' id='mn2b_ud1_ud'>User Defined</li>
+                        </ul></li>
+                    <li class='menu_item'><span id='m2b_ud2_name'>User Test 2</span>                        
+                        <ul>
+                            <li class='menu_heading'>DST if positive</li>
+                            <li class='menu_item' id='mn2b_ud2_none'>None</li>
+                            <li class='menu_item' id='mn2b_ud2_gxp'>GXP</li>
+                            <li class='menu_item' id='mn2b_ud2_lpa'>LPA</li>
+                            <li class='menu_item' id='mn2b_ud2_cul'>Culture</li>
+                            <li class='menu_item' id='mn2b_ud2_ud'>User Defined</li>
+                        </ul></li>
+                    <li class='menu_item'><span id='m2b_ud3_name'>User Test 3</span>                      
+                        <ul>
+                            <li class='menu_heading'>DST if positive</li>
+                            <li class='menu_item' id='mn2b_ud3_none'>None</li>
+                            <li class='menu_item' id='mn2b_ud3_gxp'>GXP</li>
+                            <li class='menu_item' id='mn2b_ud3_lpa'>LPA</li>
+                            <li class='menu_item' id='mn2b_ud3_cul'>Culture</li>
+                            <li class='menu_item' id='mn2b_ud3_ud'>User Defined</li>
+                        </ul></li>
+                </ul>
+
+                <div class='diag_content'>
+                    <div> <!-- All content goes in this div -->
+                    <h4>Instructions:</h4>
+
+
+                        <p>This is a tool designed to allow users to specify custom algorithms for diagnosis and treatment of TB.  To use this tool, follow these steps:</p>
+
+                        <ol>
+                            <li>Modify the Model Inputs above so that they match as well as possible with the setting you wish to test.</li>
+                            <li>Enter a diagnostic algorithm and a DST below for those who test positive for TB for each of the four different types of patients shown for both Initial and Subsequent Tests.  The default algorithm is sputum smear only.</li>
+                            <li>Click "Go!" to see results.</li>
+                        </ol>
+
+                        <p>Please note that, while we have provided some standard tests (described in the upper right-hand box), it is also possible to define tests of your own using the boxes on the lower right.  To do this we have provided three user defined diagnostic tests and one DST test; enter the characteristics of each user-defined test and click "Save Test" to add that test to the possible options for TB diagnosis or DST.
+                        </p>
+
+                        <p>The base model assumes that all people diagnosed with TB by GXP or culture will be treated as MDR-TB if the rifampin result is positive (and with first-line drugs if TB is diagnosed without rifampin resistance), and it assumes that all people diagnosed with TB by smear, LAM, or user-based tests will be treated with first-line drugs. The model will then assume that treatment is offered on the basis of the results of the confirmatory DST for rifampin resistance.</p>
+                        <table class='table table-condensed homebrew_data_table'>
+                            <thead>
+                                <tr><th>Patient Type</th><th>Initial Test</th><th>Subsequent Test*</th><th>% treated empirically if both tests are negative</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th>HIV-, New</th>
+                                    <td><p class='test_selector btn btn-primary btn-sm' id='hnn1_sel'><span id='hnn1_test'>Smear</span> (<span id='hnn1_dst'>None</span>)</p></td>
+                                    <td><p class='test_selector btn btn-primary btn-sm' id='hnn2_sel'><span id='hnn2_test'>None</span> (<span id='hnn2_dst'>None</span>)</p></td>
+                                    <td>
+                                        <label for='ds_hn_n_tb'>People with active TB:</label><input type='number' class='test_input' step='any' min='0' max='100.0' id='ds_hn_n_tb' value='25' name='pte_input' />
+                                        <label for 'ds_hn_n_not'>People with TB symptoms but without true TB:</label><input type='number' class='test_input' step='any' min='0' max='100.0' id ='ds_hn_n_not' value ='5' name='pte_input' />
+                                    </td>
+                                         
+                                </tr>
+                                <tr>
+                                    <th>HIV+, New</th>
+                                    <td><p class='test_selector btn btn-primary btn-sm' id='hpn1_sel'><span id='hpn1_test'>Smear</span> (<span id='hpn1_dst'>None</span>)</p></td>
+                                    <td><p class='test_selector btn btn-primary btn-sm' id='hpn2_sel'><span id='hpn2_test'>None</span> (<span id='hpn2_dst'>None</span>)</p></td>
+                                    <td>
+                                        <label for='ds_hp_n_tb'>People with active TB:</label><input type='number' class='test_input' step='any' min='0' max='100.0' id='ds_hp_n_tb' value='25' name='pte_input' />
+                                        <label for 'ds_hp_n_not'>People with TB symptoms but without true TB:</label><input type='number' class='test_input' step='any' min='0' max='100.0' id ='ds_hp_n_not' value ='5' name='pte_input' />
+                                    </td>  
+                                </tr>
+                                <tr>
+                                    <th>HIV-, Prev. Treated</th>
+                                    <td><p class='test_selector btn btn-primary btn-sm' id='hnp1_sel'><span id='hnp1_test'>Smear</span> (<span id='hnp1_dst'>None</span>)</p></td>
+                                    <td><p class='test_selector btn btn-primary btn-sm' id='hnp2_sel'><span id='hnp2_test'>None</span> (<span id='hnp2_dst'>None</span>)</p></td>
+                                    <td>
+                                        <label for='ds_hn_p_tb'>People with active TB:</label><input type='number' class='test_input' step='any' min='0' max='100.0' id='ds_hn_p_tb' value='25' name='pte_input' />
+                                        <label for 'ds_hn_p_not'>People with TB symptoms but without true TB:</label><input type='number' class='test_input' step='any' min='0' max='100.0' id ='ds_hn_p_not' value ='5' name='pte_input' />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>HIV+, Prev. Treated</th>
+                                    <td><p class='test_selector btn btn-primary btn-sm' id='hpp1_sel'><span id='hpp1_test'>Smear</span> (<span id='hpp1_dst'>None</span>)</p></td>
+                                    <td><p class='test_selector btn btn-primary btn-sm' id='hpp2_sel'><span id='hpp2_test'>None</span> (<span id='hpp2_dst'>None</span>)</p></td>
+                                    <td>
+                                        <label for='ds_hp_p_tb'>People with active TB:</label><input type='number' class='test_input' step='any' min='0' max='100.0' id='ds_hp_p_tb' value='25' name='pte_input' />
+                                        <label for 'ds_hp_p_not'>People with TB symptoms but without true TB:</label><input type='number' class='test_input' step='any' min='0' max='100.0' id ='ds_hp_p_not' value ='5' name='pte_input' />
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <p>* - Subsequent Test performed if Initial Test is negative except if Chest X-Ray (CXR) is chosen as the Initial Test; then the Subsequent Test is executed if the CXR result was positive.</p>
+                       <div>
+                            <label for='homebrew_name'>Name your Strategy: </label>
+                            <input id='homebrew_name' value='User Defined' />
+                       </div>
+                       <div class='btn-group right_buttons'>
+
+                           <form name='homebrew_form' method='get' action='{% url 'async.views.homebrew_model_page' %}' id='homebrew_submit'>
+                               <button class='btn btn-primary btn-sm' type='button' id='run_model'>Go!</button>
+           <!--                    <button class='btn btn-primary btn-sm' type='button' id='json_only'>JSON only</button>-->
+                               <input name='json_object' type='hidden' id='json_object' />
+                           </form>
+                       </div>
+
+                    </div>
+                    
+                </div>
+            </div>
+
+        </div>
+
+
+        <div class='col-lg-4' id='right_div'>
+
+            <div id='dtd_box'>
+                <div id='dtd_title'>
+                    <p>Diagnostic Test Descriptions <span id='dtd_icon' class='glyphicon glyphicon-chevron-up'></span></p>
+                </div>
+                <div class='dtd_content'>
+                    <div>
+                       <p>We have pre-populated this tool with certain standard tests; in this section we describe their model inputs.</p> 
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <h4>User Defined Tests</h4>
+                <p>This feature allows you to build custom tests within the framework of this model</p>
+                <p>Please click on a test to alter the details</p> 
+            </div>
+
+            <div class='testbox' id='testbox1'>
+                <div class='testbox_title test_empty' id='ud_title1'>
+                    <p>User Test 1 <span id='test_icon1' class="glyphicon glyphicon-chevron-down"></span>   <span class='test_name' id='test_name1'></span></p>
+                </div>
+                <div class='testbox_content' id='ud_content1'>
+                    <div> <!-- All content goes in this div -->                
+
+                        <label for='test_title1'>(Optional) Name: </label>
+                        <input type='text' id='test_title1' />
+
+                        <label for='sensmn1'>Sensitivity in smear-negatives</label>
+                        <input type='number' class='test_input' min='0.0' max='100.0' step='any' id='senssmn1' />
+                        <label for='senssmp1'>Sensitivity in smear-positives</label>
+                        <input type='number' class='test_input' min='0.0' max='100.0' step='any' id='senssmp1' />
+                        <label for='spec1'>Specificity</label>
+                        <input type='number' class='test_input' min='0.0' max'100.0' step='any' id='spec1' />
+                        <label for='cost1'>Cost per Test, including labor, transport, etc: </label>
+                        <input type='number' class='test_input' min='0.00' step='0.01' id='cost1' />
+                        <label for='ltfu1'>Percent of patients lost between test &amp; treatment: </label>
+                        <input type='number' class='test_input' min='0.00' step='any' id='ltfu1' />
+                                          
+                        <div class='btn-group right_buttons'>
+                            <button class='btn btn-default btn-sm right_button' id='test_clear1'> Clear Test </button>
+                            <button class='btn btn-default btn-sm right_button' id='test_save1'> Save Test </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class='testbox' id='testbox2'>
+                <div class='testbox_title test_empty' id='ud_title2'>
+                    <p>User Test 2 <span id='test_icon2' class="test-icon2 glyphicon glyphicon-chevron-down"></span>   <span class='test_name' id='test_name2'></span></p>
+                </div>
+                <div class='testbox_content' id='ud_content2'>
+                    <div>
+
+                        <label for='test_title2'>(Optional) Name: </label>
+                        <input type='text' id='test_title2' />
+
+                        <label for='sensmn2'>Sensitivity in smear-negatives</label>
+                        <input type='number' class='test_input' min='0.0' max='100.0' step='any' id='senssmn2' />
+                        <label for='senssmp2'>Sensitivity in smear-positives</label>
+                        <input type='number' class='test_input' min='0.0' max='100.0' step='any' id='senssmp2' />
+                        <label for='spec2'>Specificity</label>
+                        <input type='number' class='test_input' min='0.0' max'100.0' step='any' id='spec2' />
+                        <label for='cost2'>Cost per Test, including labor, transport, etc: </label>
+                        <input type='number' class='test_input' min='0.00' step='0.01' id='cost2' />
+                        <label for='ltfu2'>Percent of patients lost between test &amp; treatment: </label>
+                        <input type='number' class='test_input' min='0.00' step='any' id='ltfu2' />
+                                     
+                        <div class='btn-group right_buttons'>               
+                            <button class='btn btn-default btn-sm' id='test_clear2'> Clear Test </button>
+                            <button class='btn btn-default btn-sm' id='test_save2'> Save Test </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class='testbox' id='testbox3'>
+                <div class='testbox_title test_empty' id='ud_title3'>
+                    <p>User Test 3 <span id='test_icon3' class="icon-padding glyphicon glyphicon-chevron-down"></span>   <span class='test_name' id='test_name3'></span></p>
+                </div>
+                <div class='testbox_content' id='ud_content3'>
+                    <div>
+                        <label for='test_title3'>(Optional) Name: </label>
+                        <input type='text' id='test_title3' />
+
+                        <label for='sensmn3'>Sensitivity in smear-negatives</label>
+                        <input type='number' class='test_input' min='0.0' max='100.0' step='any' id='senssmn3' />
+                        <label for='senssmp3'>Sensitivity in smear-positives</label>
+                        <input type='number' class='test_input' min='0.0' max='100.0' step='any' id='senssmp3' />
+                        <label for='spec3'>Specificity</label>
+                        <input type='number' class='test_input' min='0.0' max'100.0' step='any' id='spec3' />
+                        <label for='cost3'>Cost per Test, including labor, transport, etc: </label>
+                        <input type='number' class='test_input' min='0.00' step='0.01' id='cost3' />
+                        <label for='ltfu3'>Percent of patients lost between test &amp; treatment: </label>
+                        <input type='number' class='test_input' min='0.00' step='any' id='ltfu3' />
+       
+                        <div class='btn-group right_buttons'>          
+                            <button class='btn btn-default btn-sm' id='test_clear3'> Clear Test </button>
+                            <button class='btn btn-default btn-sm' id='test_save3'> Save Test </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class='testbox' id='testbox4'>
+                <div class='testbox_title test_empty' id='ud_title4'>
+                    <p>User Defined DST <span id='test_icon4' class="icon-padding glyphicon glyphicon-chevron-down"></span>   <span class='test_name' id='test_name4'></span></p>
+                </div>
+                <div class='testbox_content' id='ud_content4'>
+                    <div>
+                        <table class='table-condensed'>
+                            <tr>
+                                <td><label for='test_title4'>(Optional) Name: </label></td>
+                                <td><input type='text' id='test_title4' /></td>
+                            </tr>
+                            <tr>
+                                <td colspan='2'>
+                                    <label for='dst_sens'>Sensitivity for RIF: </label>
+                                    <input type='number' class='test_input' min='0.0' max='100.0' step='any' id='dst_sens' />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan='2'>
+                                    <label for='dst_spec'>Specificity for RIF: </label>
+                                    <input type='number' class='test_input' min='0.0' max='100.0' step='any' id='dst_spec' />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan='2'>
+                                    <label for='dst_cost'>Cost of DST: </label>
+                                    <input type='number' class='test_input' min='0.0' max='100.0' step='any' id='dst_cost' />
+                                </td>
+                            </tr>
+                        </table>
+                        <div class='btn-group right_buttons'>          
+                            <button class='btn btn-default btn-sm' id='test_clear4'> Clear Test </button>
+                            <button class='btn btn-default btn-sm' id='test_save4'> Save Test </button>
+                        </div>
+                     </div>
+                </div>
+            </div>
+
+        </div>
+
+
+    </div> <!-- .row -->
+
+{% endblock %}

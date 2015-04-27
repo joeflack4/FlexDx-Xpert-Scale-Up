@@ -1,0 +1,125 @@
+#right_div {
+    border-left: 2px solid #787878;
+    border-right: 2px solid #787878;
+    height:1350px;
+    overflow:scroll;
+}
+
+.testbox, #diag_box, #dtd_box {
+    border: 1px solid black;
+    border-radius: 5px 5px;
+    padding: 0px;
+    margin-bottom:10px;
+}
+
+#treat_box {
+    margin-bottom:40px;
+}
+
+.testbox_title, #dtd_title {
+    color:white;
+    padding:8px 0px 1px 20px;
+    cursor:pointer;
+    font-weight:bold;
+
+}
+
+#dtd_title {
+    background:#357EBD;
+    text-decoration:underline;
+}
+
+#diag_title {
+    color:white;
+    background:#357EBD;
+    cursor:pointer;
+    padding:8px 0px 1px 20px;
+    font-weight:bold;
+    font-size:1.2em;
+    text-decoration:underline;
+}
+
+.test_name {
+    font-style:italic;
+    text-decoration:none;
+}
+
+div.test_completed {
+    background: #357EBD;
+}
+
+div.test_empty {
+    background: gray;
+}
+
+.diag_content div,
+.diag_content p,
+.dtd_content div,
+.dtd_content p {
+    height:inherit;
+    overflow:hidden;
+}
+
+.diag_content,
+.dtd_content {
+    padding:0px 5px 5px 5px;
+    height:auto;
+}
+
+.testbox_content,
+.dtd_content {
+    font-size:0.8em;
+    padding:10px 5px 5px 5px;
+    display:none;
+    overflow:hidden;
+}
+
+.dtd_content {
+    display:block;
+    margin-top:5px;
+}
+
+.right_buttons {
+    float:right;
+}
+
+/*Input Classes*/
+.test_input {
+    width:50px;
+}
+
+/*.test_selector {
+    background:#E6E6E6;
+    border-radius:5px 5px;
+    border:1px solid #565656;
+    cursor:pointer;
+    width:125px;
+    box-shadow:3px 3px 3px #CCCCCC;
+}*/
+
+.test_sel_menu {
+    position:absolute;
+    background:#e6e6e6;
+    border:2px solid black;
+    box-shadow:5px 5px 10px #CCCCCC;
+}
+
+.menu_heading {
+    background:#b6b6b6;
+    padding: 2px;
+}
+
+/*Bootstrap Overwrite*/
+label {
+    font-weight:400;
+}
+
+.homebrew_data_tabel label {
+    font-size:0.85em;
+}
+
+#homebrew_input_box {
+    margin-top:20px;
+    display:none;
+}
+

@@ -1,0 +1,213 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block title %}Help{% endblock %}
+
+{% block jscript %}
+<script>
+
+$(document).ready(function () {
+
+    $("#graph_box").show();
+    $("#linkbar li").show();
+
+
+});
+
+</script>
+<script src="{% static 'jscript/utils.js' %}" type='text/javascript'></script>
+{% endblock %}
+
+{% block nav_buttons %}
+    <a href="{% url 'async.views.about_page' %}" class='btn btn-primary'>About</a>
+    <a href="{% url 'async.views.home_page' %}" class='btn btn-primary'>Model</a>
+{% endblock %}
+
+{% block content %}
+
+<div class='row'>
+
+    <div id='help_box' class='col-lg-offset-1 col-lg-10'>
+        <h1 id='help_top'>Model Help</h1>
+
+        <span class='section_title'>Links</span>
+        <ul>
+            <li><a href='#help_sel_opt'>Model Selection Options</a></li>
+            <li><a href='#help_mdl_in'>Model Input Definitions</a></li>
+            <li><a href='#help_mdl_out'>Model Output Results</a></li>
+            <li><a href='#help_FAQ'>Frequently Asked Questions</a></li>
+            <li><a href='#help_add_r'>Additional Resources / Manuals</a></li>
+        </ul>
+
+        <h2 id='help_sel_opt'>Model Selection Options</h2>
+
+        <span class='section_title'>Country Selection for Pre-Calculated Values</span>
+        <p class='top_ap'>The pre-calculated values are generated using WHO estimates for the countries listed.  Selecting a country with pre-calculated will return model results for all diagnostic strategies, including uncertainty ranges (which take time to calculate and are thus not included in scenarios that are defined by users).</p>
+
+        <span class='section_title'>Single Strategy</span>
+        <p class='top_ap'>This option allows the user to input baseline parameters and to select one diagnostic strategy from the list provided to compare with the Baseline (smear) diagnostic strategy.  This will return projected results for the indicators listed in the Model Output Results section.</p>
+
+        <p>For each diagnostic strategy below, the projected results assume immediate implementation of the diagnostic strategy at the beginning of a given year ("Year 1"):</p>
+        <ol>       
+            <li><span class='bold'>Baseline (Smear):</span> Sputum smear microscopy for each diagnostic attempt, with liquid-media TB culture only to evaluate smear-positive cases with a history of previous TB treatment for drug resistance.</li>
+
+            <li><span class='bold'>Xpert for smear positive only:</span> Sputum smear for all patients, plus Xpert MTB/RIF for smear-positive patients only (i.e., for rapid DST), with a positive test for rifampin resistance triggering treatment for MDR-TB.</li>
+
+            <li><span class='bold'>Xpert for HIV positive only:</span> Xpert MTB/RIF for HIV-infected patients only, with a positive test for rifampin resistance triggering treatment for MDR-TB. This strategy is conceived as a &quot;best-case&quot; scenario for HIV targeted TB testing: if individuals unaware of their HIV status are not tested with Xpert, this strategy will overestimate effectiveness, and if those unaware of their status are tested, it will underestimate costs.</li>
+
+            <li><span class='bold'>Xpert for previously treated only:</span> Xpert MTB/RIF used to diagnose TB in any previously treated individual with symptoms regardless of smear status, with a positive test for rifampin resistance triggering treatment for MDR-TB.</li>
+
+            <li><span class='bold'>Xpert for smear negative or previously treated only:</span> Sputum smear for all new patients, plus Xpert MTB/RIF used to diagnose TB in any smear-negative patient or previously treated individual, with a positive test for rifampin resistance triggering treatment for MDR-TB.</li>
+
+            <li><span class='bold'> Xpert for all HIV+ or previously treated only:</span> Xpert MTB/RIF for HIV-infected patients and previously treated individuals with symptoms regardless of smear status, with a positive test for rifampin resistance triggering treatment for MDR-TB.</li>
+
+            <li><span class='bold'>Xpert for smear negative only:</span> Sputum smear for all new patients, plus Xpert MTB/RIF used to diagnose TB in any smear-negative patients with persistent symptoms, with a positive test for rifampin resistance triggering treatment for MDR-TB.</li>
+            <li><span class='bold'>Xpert for all:</span> Xpert MTB/RIF for all patients with TB symptoms.
+</li>
+            <li><span class='bold'>Same-Day Xpert:</span> Xpert MTB/RIF for all patients with TB symptoms, including the ability to provide results to patients in the same clinical encounter (e.g., peripheral deployment).  Note that the per-test cost of same-day Xpert should be higher.</li>
+        </ol>
+        <span class='section_title'>All Strategies</span>
+        <p class='top_ap'>This option allows the user to input baseline parameters and run the model to compare all diagnostic strategies listed above with the Baseline (smear) diagnostic strategy.  This will return projected results as graphs and comparison tables for the indicators listed in the Model Output Results section for all diagnostic strategies.</p>
+
+        <p>Back to <a href='#help_top'>top of page</a></p>
+
+        <h2 id='help_mdl_in'>Model Input Definitions</h2>
+
+        <span class='section_title'>Epidemiologic Scenario</span>
+        <ul>
+            <li>Target TB incidence, per 100,000:  This is the current TB incidence rate in the target country or setting of interest.</li>
+            <li>Target MDR-TB prevalence among new cases, %: (3.7) This is the current prevalence or percentage of MDR-TB among newly diagnosed cases in the target country or setting of interest.</li>
+            <li>Target adult HIV prevalence, %: (0.8) This is the current HIV prevalence in the population in the target country or setting of interest.</li>
+        </ul>
+        <span class='section_title'>Costs (please include ALL costs, including labor, infrastructure, supplies, etc.)</span>
+        <ul>
+            <li>The user must enter the costs for each treatment and diagnostic test parameter listed.  The model will return an error message if one of these fields is left blank.  These costs represent the current cost for each treatment and diagnostic test parameter and should be estimated as best as possible.</li>
+        </ul>
+
+        <p>Back to <a href='#help_top'>top of page</a></p>
+    
+        <h2 id='help_mdl_out'>Model Output Results</h2>
+    
+        <span class='section_title'>Country Selection for Pre-Calculated Values</span>
+        <p class='top_ap'>Selecting this option will return the following model projections, which are based on <span class='underline'>relative</span> rather than <span class='underline'>absolute</span> changes in costs and outcomes:</p>
+        <ul>
+            <li>Scatterplots</li>
+            <ul>
+                <li><span class='bold'>Percent change in cost and TB incidence at year 5 for all strategies compared to Baseline:</span> This graph displays the percent decrease in TB incidence at year 5 [effectiveness] vs. the percent increase in cost for implementing the diagnostic strategy at year 5 [cost] for all strategies compared to baseline (smear).  The table below the graph reports the same data in numerical form. </li>
+                <li><span class='bold'>Percent change in cost and MDR incidence at year 5 for all strategies compared to Baseline:</span> This graph displays the percent decrease in MDR-TB incidence at year 5 [effectiveness for MDR] vs. the percent increase in cost for implementing the diagnostic strategy at year 5 [cost] for all strategies compared to baseline (smear).  The table below the graph likewise gives these estimates in numerical form.</li>
+                <li>Cross bars represent 95% uncertainty ranges for the model's projected percent change estimate for TB or MDR-TB incidence (vertical bar) and cost (horizontal bar).  95% uncertainty ranges result from varying the values of all parameters in the model simultaneously by +/- 10% of their original value.</li>
+                <li><span class='bold'>Example variables selection options:</span>  95% uncertainty ranges reflect the range of outputs that might be expected if inputs are varied to a certain pre-specified extent (here, +/-10% of the underlying value).  They are not 95% confidence intervals in the statistical sense.  More importantly, certain variables have important impact on the model's results and likely vary by more than +/-10% from one setting to the next.  These options allow users to see the impact of doubling the value of each of these input variables.</li>
+                    <ul>
+                        <li><span class='bold'>Baseline:</span> No change to input values</li>
+                        <li><span class='bold'>Empiric treatment doubled:</span> Double the probability of empiric treatment in someone who tests negative for active TB (but actually has TB) from 25% to 50%.</li>
+                        <li><span class='bold'>Pre-diagnostic delay doubled:</span> Double the period of infectiousness before seeking care from 9 months to 18 months</li>
+                        <li><span class='bold'>Reactivation doubled:</span> Double the rate of reactivation, which likewise increases the probability that a case of active TB is due to reactivation vs. recent infection</li>
+                    </ul>
+            </ul>
+            <li>Bargraph</li>
+            <ul>
+                <li>This graph shows the projected percent change as it increases or decreases for TB Incidence, MDR Incidence, TB Mortality, Year 1 Costs, and Year 5 Costs comparing All Strategies to Baseline (smear).</li>
+            </ul>
+            <li>Comparison Table</li>
+            <ul>
+                <li>This table displays the projected changes in TB Incidence, MDR Incidence, TB Mortality, Year 1 Costs, and Year 5 Costs as a percent decrease (green) or increase (red) for All Strategies compared to the Baseline (smear) diagnostic scenario.</li>
+            </ul>
+            <li>Intermediate Data Export</li> 
+            <ul>
+                <li>This button will send you an excel spreadsheet detailing intermediate values (such as number of people screened, number of tests performed and number of treatments indicated) broken down by year over the five year period of the model</li>
+            </ul>
+        </ul>
+
+        <span class='section_title'>Single Strategy</span>
+        <p class='top_ap'>Selecting this option will return the following setting-specific model projections for Baseline (smear) and for the diagnostic strategy selected by the user for estimates by the end of Year 5:</p>
+        <ul>
+            <li><span class='bold'>Incidence, new: per 100,000</span> - Number of new TB cases per 100,000 population</li>
+            <li><span class='bold'>Incidence, retx: per 100,000</span> - Number of previously treated TB cases per 100,000 population</li>
+            <li><span class='bold'>Incidence, total: per 100,000</span> - Number of all (new+retx) TB cases per 100,000 population</li>
+            <li><span class='bold'>Incidence, INH new: %</span> - Percent of newly diagnosed TB cases with INH mono-resistance</li>
+            <li><span class='bold'>Incidence, INH retx: %</span> - Percent of previously treated TB cases with INH mono-resistance</li>
+            <li><span class='bold'>Incidence, MDR new %</span> - Percent of newly diagnosed TB cases with multi-drug resistance</li>
+            <li><span class='bold'>Incidence, MDR retx: %</span> - Percent of previously treated TB cases with multi-drug resistance</li>
+            <li><span class='bold'>Incidence, MDR total: per 100,000</span> - Number of MDR TB cases per 100,000 population</li>
+            <li><span class='bold'>Incidence, TB/HIV: %</span> - Percent of all newly diagnosed TB cases that are infected with HIV</li>
+            <li><span class='bold'>TB mortality: per 100,000</span> - Number of deaths from TB per 100,000 population</li>
+            <li><span class='bold'>TB duration: years</span> - Average duration of TB disease from the time of diagnosis to final (treatment) outcome for a given patient with TB</li>
+            <li><span class='bold'>HIV prevalence: %</span> - Percent of the total population that is currently infected with HIV</li>
+            <li><span class='bold'>Cost per year at End of Year 1: $</span> - Cost of the selected TB diagnosis and treatment strategy at the end of Year 1 of implementation</li>
+            <li><span class='bold'>Cost per year at End of Year 5: $</span> - Cost of the selected TB diagnosis and treatment strategy at the end of Year 5 of implementation</li>
+        </ul>
+
+        <span class='section_title'>All Strategies</span>
+        <p class='top_ap'>Selecting this option will return the following model projections:</p>
+        <ul>
+            <li><span class='bold'>Graphs: For all strategies compared to Baseline</li>
+            <ul>
+                <li><span class='bold'>Graph Comparison</span> (same as Country Selection for Pre-Calculated Values above)
+                <li><span class='bold'>Percent change in cost and TB incidence at year 5 for all strategies compared to Baseline</span> (same as Country Selection for Pre-Calculated Values above)
+                <li><span class='bold'>Percent change in cost and MDR incidence at year 5 for all strategies compared to Baseline</span> (same as Country Selection for Pre-Calculated Values above)
+            </ul>
+            <li><span class='bold'>Comparison Table</span> (same as Country Selection for Pre-Calculated Values above)</li>
+            
+        </ul>
+
+        <p>Back to <a href='#help_top'>top of page</a></p>
+
+        <h2 id='help_FAQ'>Frequently Asked Questions</h2>
+
+        <p><span class='bold'>Q: What if I want to implement a diagnostic strategy that is not listed?</span><br/>
+        <span class='bold'>A:</span>  We tried to be as thorough as possible in selecting the diagnostic strategies to include in the model.  Currently the diagnostic strategies that are listed on the website are the only ones that can be analyzed using this model, but we are working to increase the suite of options available.</p>
+ 
+<p><span class='bold'>Q: Can I compare different strategies against each other instead of comparing to the baseline (smear) strategy?</span><br/>
+<span class='bold'>A:</span>  Although the model currently does not perform this calculation directly, it is possible to compare indirectly (for example, comparing a 5% decrease to baseline versus a 15% decrease to baseline would suggest a 10% difference between the two scenarios).</p>
+
+<p><span class='bold'>Q: What if I do not know the cost for the treatment or diagnostic test parameters for the model?  I get a message saying that I must enter this value to run the model.</span><br/>
+<span class='bold'>A:</span>  We provide baseline estimates for each cost that can be used, but if a cost element is left blank, the model cannot run - because the total cost depends on each unit cost.  If you want to ignore a certain cost, you may enter "0".</p>
+
+<p><span class='bold'>Q: How can I get the incidence estimates that are returned when you run the model for a "Single Strategy" for multiple different strategies?</span><br/>
+<span class='bold'>A:</span> With the setup of the current model and website, the best way to obtain the incidence estimates that you get from running the "Single Strategy" simulation is to run the model once for each separate ‘Single Strategy’ that you are interested in, and then to compare the different results.</p>
+
+<p><span class='bold'>Q: Why are pediatric and extrapulmonary TB cases excluded from the model?  How will a given diagnostic strategy affect these cases?</span><br/>
+<span class='bold'>A:</span> This model does not include pediatric TB and extrapulmonary TB cases because it focuses on transmission dynamics and these cases are largely non-infectious, even though they are very important components of the TB epidemic.  While pediatric and extrapulmonary TB cases are not included in the parameter estimates being put into the model estimation, they are included in the model’s cost calculations (for treatment, not diagnosis) and estimates of impact, because the TB incidence reported is the overall incidence in a country, not pulmonary TB incidence only.</p>
+
+<p><span class='bold'>Q: Why does the model assume a steady state population even though when we know that the global population is increasing?</span><br/>
+<span class='bold'>A:</span> It is true that the global population is increasing, but most of our calculations are per 100,000 people so you can multiply by the total population size.  We included the steady-state population assumption in building this model because it is critical to making the model run quickly.  In very few settings is TB incidence rising or declining by more than 10% per year, making a steady state assumption reasonable from the perspective of a mathematical model that provides 5-year results.</p>
+
+<p><span class='bold'>Q: Is same-day microscopy a realistic and/or feasible strategy for TB diagnosis?  What about in a high burden setting?</span><br/>
+<span class='bold'>A:</span> We included same-day microscopy as a diagnostic strategy because we are interested to explore program and practitioner attitudes towards the use of microscopy as a same-day diagnostic tool, and to demonstrate the importance of rapid diagnostic testing, not just more sensitive diagnostic testing.  If a given strategy is not felt to be politically or logistically feasible in a given setting, it can be ignored for decision-making purposes, but it may still be useful as a learning tool.</p>
+
+<p><span class='bold'>Q: If you had one recommendation of a diagnostic strategy that is best for all National TB Programs to implement, what strategy would it be?</span><br/>
+<span class='bold'>A:</span> The best strategy depends on the goals of the individual user and the resources available.  Our aim is not to advocate for any strategy but rather to provide insight as to the potential epidemiological and economic consequences of choosing alternative strategies.</p>
+
+<p><span class='bold'>Q: How should I use the model's predicted results?</span><br/>
+<span class='bold'>A:</span> It is important to interpret the model's results in the context of general limitations of mathematical models like this one.  The projections should not be interpreted as precise predictions about the future, but rather a tool for learning about the potential impact of different strategies and comparing both their economic costs and epidemiological gains.  We are interested to know what professionals in the TB world see as the best use for the model results and are very open to your feedback.</p>
+
+<p><span class='bold'>Q: Given that I am not an expert modeler, how much should I rely on or trust the model¹s predictions for a given set of input parameters?</span><br/>
+<span class='bold'>A:</span> As with any modeling analysis, this research has important limitations.  We have done our best to benchmark this model against the published literature, but we also make our code freely available at https://github.com/JJPennington/FlexDx-TB-Web-Django.  A scientific manuscript describing all model assumptions and structure is also under peer review.</p>
+
+<p><span class='bold'>Q: Where can I get more information about the model?  Who should I contact if I have more questions?</span><br/>
+<span class='bold'>A:</span>  We have a manuscript that will be published in the future that provides additional details about the model.  A link to the manuscript will be available here after publication.  Please email David Dowdy (ddowdy@jhsph.edu) if you have any questions or problems related to using the FlexDx TB Model.</p>
+
+<p>Back to <a href='#help_top'>top of page</a></p>
+
+<h2 id='help_add_r'>Additional Resources / Manuals</h2>
+<h4>FlexDx Model</h4>
+<ul>
+    <li><a href="{% static 'docs/FlexDx_Users_Manual.docx' %}">FlexDx Users Manual (.docx)</a></li>
+    <li><a href="{% static 'docs/FlexDx_Quick_Start_Country_Presets.pdf' %}">Quick Start: FlexDx Country Preset Values (.pdf)</a></li>
+    <li><a href="{% static 'docs/FlexDx_Quick_Start_User_Inputs.pdf' %}">Quick Start: FlexDx User Input Values (.pdf)</a></li>
+    <li><a href="{% static 'docs/FlexDx_Case_study_Cape_town.pdf' %}">FlexDx Case Study: Cape Town (.pdf)</a></li>
+</ul>
+<h4>User Defined Strategies</h4>
+<ul>
+    <li><a href="{% static 'docs/FlexDx_Quick_Start_User_Defined_Strategy.pdf' %}">QuickStart: User Defined Strategies (.pdf)</a></li>
+    <li><a href="{% static 'docs/FlexDx_User_Defined_Strategy_Schematic.pptx' %}">User Defined Strategy Schematic (.pptx)</a></li>
+</ul>
+
+<p>Back to <a href='#help_top'>top of page</a></p>
+
+</div>
+</div>
+
+
+
+{% endblock %}

@@ -1,0 +1,15 @@
+{
+
+"opt0":["0. Baseline(Smear)","Sputum smear microscopy for each diagnostic attempt, with liquid-media TB culture only to evaluate smear-positive cases with a history of previous TB treatment for drug resistance."],
+"opt1":["1. Xpert for smear-positive","Sputum smear for all patients, plus Xpert MTB/RIF for smear-positive patients only (i.e., for rapid DST), with a positive test for rifampin resistance triggering treatment for MDR-TB."],
+"opt2":["2. Xpert for HIV+","Xpert MTB/RIF for HIV-infected patients only, with a positive test for rifampin resistance triggering treatment for MDR-TB. This strategy is conceived as a &quot;best-case&quot; scenario for HIV targeted TB testing: if individuals unaware of their HIV status are not tested with Xpert, this strategy will overestimate effectiveness, and if those unaware of their status are tested, it will underestimate costs."],
+"opt3":["3. Xpert for previously treated","Xpert MTB/RIF used to diagnose TB in any previously treated individual with symptoms regardless of smear status, with a positive test for rifampin resistance triggering treatment for MDR-TB."],
+"opt4":["4. Xpert for sm-neg HIV+ or prev tx","Sputum smear for all new patients, plus Xpert MTB/RIF used to diagnose TB in any smear-negative patient or previously treated individual, with a positive test for rifampin resistance triggering treatment for MDR-TB."],
+"opt5":["5. Xpert for all HIV+ or prev tx","Xpert MTB/RIF for HIV-infected patients and previously treated individuals with symptoms regardless of smear status, with a positive test for rifampin resistance triggering treatment for MDR-TB."],
+"opt6":["6. Xpert for smear-negative","Sputum smear for all new patients, plus Xpert MTB/RIF used to diagnose TB in any smear-negative patients with persistent symptoms, with a positive test for rifampin resistance triggering treatment for MDR-TB."],
+"opt7":["7. Xpert for all","Xpert MTB/RIF for all patients with TB symptoms."],
+"opt8":["8. Xpert for all, same-day","Xpert MTB/RIF for all patients with TB symptoms, including the ability to provide results to patients in the same clinical encounter (e.g., peripheral deployment).  Note that the per-test cost of same-day Xpert should be higher."],
+"opt9":["All Strategies","Model all 9 diagnostic strategies, produce comparative graphs and chart."],
+"opt10":["Single Strategy","Model a single diagnostic strategy against the baseline strategy."]
+
+}

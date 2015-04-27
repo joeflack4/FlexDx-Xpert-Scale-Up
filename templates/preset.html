@@ -1,0 +1,132 @@
+{% extends 'base.html' %}
+
+{% load staticfiles %}
+
+{% block title %}Uncertainty{% endblock %}
+
+{% block jscript %}
+
+<script src="{% static 'jscript/preset.js' %}" type='text/javascript'></script>
+<script src="{% static 'jscript/utils.js' %}" type='text/javascript'></script>
+<link href="{% static 'css/tooltips.css' %}" rel="stylesheet">
+
+{% endblock %}
+
+{% block nav_buttons %}
+<a href='{% url "async.views.home_page" %}' class='btn btn-primary'>Back to Inputs</a>
+{% endblock %}
+
+
+{% block content %}
+
+
+     <div class='row'>
+        <div id='model_inputs' class='col-lg-offset-1 col-lg-10'>
+            <p>Model options (Country: <span name='preset_fullname'></span>, GDP per capita: $<span name='preset_gdp'></span>)</p>
+            <ul id='mi'>
+                <li class='mili'><span class='head'>TB Incidence:</span> <span name='tb_point'></span> (<span name='tb_lo'></span> - <span name='tb_hi'></span>)</li>
+                <li class='mili'><span class='head'>Adult HIV prevalence:</span> <span name='aids_point'></span>% (<span name='aids_lo'></span>% - <span name='aids_hi'></span>%)</li>
+                <li class='mili'><span class='head'>Percent of new TB that is MDR:</span> <span name='mdr_point'></span>% (<span name='mdr_lo'></span>% - <span name='mdr_hi'></span>%)</li>
+            </ul>
+            
+            <div class='small_text'>
+The percentage changes in cost reported below do not depend on the absolute costs. These costs can be taken as indicating the relative values of cost inputs, which do matter for the results below.
+            </div>
+
+            <ul id='mi_cost'>
+                <li><span class='head'>Treatment of one patient with first-line drugs:</span> <span name='drg_cst'></span></li>
+                <li><span class='head'>Treatment of one patient with retreatment ("category 2") regimen:</span> <span name='drg2_cst'></span></li>
+                <li><span class='head'>Treatment of one patient with second-line (MDR) drugs:</span> <span name='drg3_cst'></span></li>
+                <li><span class='head'>One outpatient visit (e.g., for TB diagnosis):</span> <span name='opt_cst'></span></li>
+                <li><span class='head'>Full sputum smear evaluation (e..g, collection &amp; evaluation of 2 smears):</span> <span name='sm_cst'></span></li>
+                <li><span class='head'>Single Xpert MTB/RIF test:</span> <span name='gxp_cst'></span></li>
+                <li><span class='head'>Single Xpert, including extra costs to make results available on same day:</span> <span name='sdgxp_cst'></span></li>
+                <!-- FILL WITH OTHER COSTS -->
+            </ul>
+        </div>
+    </div>
+
+    <div class='row'>
+        <div class='col-lg-offset-1 col-lg-10'>
+            <div id='linkbar'>
+                <!--<button name='strat0'  type='button' class='btn btn-primary'>1. Baseline</button>-->
+                <button name='strat9'  type='button' class='btn btn-primary btn-sm'>Interactive Cost/Incidence</button>
+                <button name='strat10' type='button' class='btn btn-primary btn-sm'>Interactive Cost/MDR</button>
+                <button name='strat11' type='button' class='btn btn-primary btn-sm'>Summary Data</button>
+                <button name='data_ex' type='button' class='btn btn-primary btn-sm'>Intermediate Data Export</button>
+                <p class='small_text'>Intermediate Data includes values such as: number of screened, number of tests performed, number of treatments indicated</p>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class='row'>
+
+      <!--  <div id='mainbox' class='col-lg-offset-1 col-lg-10'>
+            <div class='row'> -->
+
+        <div id='graph_box' class='col-lg-offset-1 col-lg-10'>
+
+                <!-- Bargraph -->
+
+            <div id='graph1_frame'>
+
+                <div id='p1-radio'>
+                    <div id='sp1'>
+                        <img id='p1' alt='Scatterplot' />
+                    </div> <!-- #sp1 -->
+        
+                    <div id='sp1_buttons'>
+                        <p class='radio_button_title'>Alternative Scenarios (indicated by dots)</p>
+                        <input type="radio" name="sp1_grp" id="s1B" value="B" checked='checked' /> <label for='s1B'>Baseline</label><br/>
+                        <input type="radio" name="sp1_grp" id="s1E" value="E" /> <label for='s1E'>Empiric treatment doubled</label><br/>
+                        <input type="radio" name="sp1_grp" id="s1P" value="P" /> <label for='s1P'>Pre-diagnostic delay doubled</label><br/>
+                        <input type="radio" name="sp1_grp" id="s1R" value="R" /> <label for='s1R'>Reactivation doubled</label><br/>
+                        <p id='sp1_descrip'>Crossbars show baseline + uncertainty</p>
+                       <p id='sp1_type'></p>
+                    </div> <!-- #sp1_buttons -->
+                </div> <!-- #p1-radio -->
+    
+                <div id='sp1_table'>
+                </div>
+               
+            </div> <!-- #graph1_frame -->
+
+            <div id='graph2_frame'>
+                <div id='p2-radio'>
+                    <div id='sp2'>
+                        <img id='p2' alt='Scatterplot' />
+                    </div> <!-- #sp2 -->
+       
+                    <!-- 
+                    <div id='sp2_buttons'>
+                        <p class='radio_button_title'>Example variables</p>
+                        <input type="radio" name="sp2_grp" id="s2B" value="B" checked='checked' /> <label for='s2B'>Baseline</label><br/>
+                        <input type="radio" name="sp2_grp" id="s2E" value="E" /> <label for='s2E'>empiric treatment doubled</label><br/>
+                        <input type="radio" name="sp2_grp" id="s2P" value="P" /> <label for='s2P'>pre-diagnostic delay doubled</label><br/>
+                        <input type="radio" name="sp2_grp" id="s2R" value="R" /> <label for='s2R'>reactivation doubled</label><br/>
+                        <p id='sp2_descrip'>Crossbars show baseline + uncertainty</p>
+                        <p id='sp2_type'></p>
+                    </div>
+                    -->
+                </div> <!-- #p2-radio -->
+    
+                <div id='sp2_table'>
+                </div>
+
+            </div> <!-- #graph2_frame -->
+
+        </div> <!-- #graph_box.col-lg-offset-1.col-lg-10 -->
+      
+       <div id='summary_box' class='col-lg-offset-1 col-lg-10'>
+
+           <div id='table_box'></div>
+
+           <div id='bar_box'></div>
+       </div>
+
+    </div> <!-- .row -->
+     
+
+{% endblock %}

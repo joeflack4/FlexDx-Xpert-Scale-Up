@@ -1,0 +1,6 @@
+*.pyc
+*.swp
+._*
+media/*.json
+media/*.xls
+xpert_su/xpert_config.py
