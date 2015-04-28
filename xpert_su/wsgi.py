@@ -17,7 +17,7 @@ import os
 import sys
 
 sys.path.append("/django")
-sys.path.append("/django/xpert_su")
+sys.path.append("/django/FlexDx-Xpert-Scale-Up")
 
 # We defer to a DJANGO_SETTINGS_MODULE already in the environment. This breaks
 # if running multiple sites in the same mod_wsgi process. To fix this, use
