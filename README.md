@@ -4,7 +4,7 @@
 
 # Version from previous install, will need to be updated Apr 2015
 
-TODO: Lots
+TODO: Lots and lots
 
 This framework has been tested on Linux (Ubuntu 12.04.2) and OSX (10.7.5).
 
