@@ -37,15 +37,15 @@ then the logs will go to FLEXDX_HOME/logs/.
 
 then type:
 
-$ python manage.py runserver
+`$ python manage.py runserver`
 
-Performing system checks...
+`Performing system checks...`
 
-System check identified no issues (0 silenced).
-April 29, 2015 - 01:31:16
-Django version 1.8, using settings 'xpert_su.settings'
-Starting development server at http://127.0.0.1:8000/
-Quit the server with CONTROL-C.
+`System check identified no issues (0 silenced).`
+`April 29, 2015 - 01:31:16`
+`Django version 1.8, using settings 'xpert_su.settings'`
+`Starting development server at http://127.0.0.1:8000/`
+`Quit the server with CONTROL-C.`
 
 Then naviate your web-browser to http://localhost:8000 or 
 http://127.0.0.1:8000/.  The model interface should be running there
