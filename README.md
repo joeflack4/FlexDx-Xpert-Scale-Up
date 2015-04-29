@@ -1,102 +1,59 @@
----------------------------------------------
- Django FlexDx Xpert Scale Up Web Version 0.1
----------------------------------------------
+-----------------------------------------
+ Django FlexDx Xpert Scale Up Web Version
+-----------------------------------------
 
-# Version from previous install, will need to be updated Apr 2015
+#FlexDx Xpert Scale Up
 
-TODO: Lots and lots
+This README should help anybody interested in running the FlexDx Tubuerculosis
+transmission model using the web front-end. 
 
-This framework has been tested on Linux (Ubuntu 12.04.2) and OSX (10.7.5).
+This model will run on any BSD based system with the GNU/Unix 'at' schedualer
+command (OSX, Linux, etc.).  As long as the system runs python it should work.
+You will need to install several python libraries, I recommend pip for that.
+The file pip freeze in the root directory contains a list, but installing Django, 
+matplotlib, numpy and scipy should install all the other dependencies.
 
-This README is to help you install and configure this django web-framework
-version of the FlexDx-TB Model.  You will need to install the following
-software packages on your machine.
+You should probably use a system like virtualenv to install the libraries
+locally but it will work perfectly fine if you install the libraries globally.
 
-- python 2.7
-- django 1.5.1
-- scipy 0.13.0, numpy 1.8.0
-- matplotlib 1.2.1
+This distribution does not contain the excel files generated per country.
 
-In Linux:
+#Installation
 
-	Ubuntu (and it's parent distribution Debian) has a package management
-application (apt-get) which is usefull for the installation of python (if not
-already installed), scipy, matplotlib and numpy.  The django version in the
-default repository is 1.4.1, so to install django it is suggested that you use
-the python package management applications 'pip' or 'easy_install', which will 
-install django version 1.5.1
+Make sure you have all the required python libraries Django, matplotlib, numpy
+and scipy.  If you're having difficulty as an OSX user I've used a 'Superpack'
+that contains matplotlib, numpy and scipy.  Search for it online.
 
-In OSX:
+Clone the repository and move into it ('git clone' or applicable); copy the 
+file:
 
-	Python comes pre-installed on OSX systems; there is a 'Superpack'
-available online that includes numpy, scipy and matplotlib; this is the best
-way to install these three libraries as other ways of installation can be
-problematic.  Use 'pip' or 'easy_install' to install django.	 
+xpert_su/xpert_config.py_example
+to
+xpert_su/xpert_config.py
 
-CONFIGURATION INSTRUCTIONS
---------------------------
+If you do not set the FLEXDX_HOME environment variable the logs from the
+homebrew model will be put into ~.  If you set FLEXDX_HOME
+then the logs will go to FLEXDX_HOME/logs/. 
 
-Once they are installed, download this repository into a directory.  None of 
-the directories from the root to the current directory can contain spaces in 
-their names.
+then type:
 
-eg:
+$ python manage.py runserver
 
-/Users/name/Desktop/flexdxtb/ is good
-/Users/name/Work Directory/flexdxtb/ is not
+Performing system checks...
 
-Open up the file 'settings.py' which is found in the flexdxtb/flexdxtb/ 
-directory with a plain-text editor.  Scroll down to the MEDIA_ROOT parameter and
-set this value to the absolute location of the media/ directory.  Using the above
-example:
-
-MEDIA_ROOT = '/Users/name/Desktop/flexdxtb/media/'
-
-Next find the TEMPLATE_DIRS tuple and add the path to the template directory.
-Again, using the above example:
-
-TEMPLATE_DIRS = (
-    # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
-    # Always use forward slashes, even on Windows.
-    # Don't forget to use absolute paths, not relative paths.
-    "/Users/name/Desktop/flexdxtb/templates",
-)
-
-Now save the file settings.py where it is in plain-text.
-
-Next, open the file flexdxtb/async/views.py with the same plain-text editor and
-go to line 34, which should read
-
-s = "echo " #insert the path to the flexbg.py file
-
-The flexbg.py file is found in the flexdxtb/async/ directory. Using the above 
-example again, you should change this entry to:
-
-s = "echo /Users/name/Desktop/flexdxtb/async/flexbg.py "
-
-It is important to leave the space at the end, before the quote but after the
-y.
-
-This should be all that is required to get the model running on this machine.
-Once this is done, using a terminal (shell) program go into the root directory
-of the repository (using the same example, /Users/name/Desktop/flexdxtb/) and
-type:
-
-python manage.py runserver
-
-If django is properly setup, you should get
-
-0 errors found
-August 30, 2013 - 11:24:17
-Django version 1.5.1, using settings 'flexdxtb.settings'
-Development server is running at http://127.0.0.1:8000/
+System check identified no issues (0 silenced).
+April 29, 2015 - 01:31:16
+Django version 1.8, using settings 'xpert_su.settings'
+Starting development server at http://127.0.0.1:8000/
 Quit the server with CONTROL-C.
 
-printed on the screen. Then, in your browser, set the url to 
-http://127.0.0.1:8000/ and run the model as you like.  It is best to run this
-on a more advanced machine as the model is very processor intensive.
+Then naviate your web-browser to http://localhost:8000 or 
+http://127.0.0.1:8000/.  The model interface should be running there
+now.
 
-If you wish to make modifications to the model, examine the runmodel() function
-in the flexbg.py file located in flexdxtb/async/.
+This model is CPU intensive and will require significantly more time
+to execute on older machines.
 
-- The FlexDx Team
+Thanks,
+
+The FlexDx Team

@@ -32,6 +32,7 @@ from itertools import *
 import json
 #JP MOD
 import sys #Command Line arguments
+import os #Environment Variables
 from datetime import datetime #for logging
 
 # ############################################################
@@ -41,7 +42,14 @@ from datetime import datetime #for logging
 # | | | | (_) | | | | | |  __/ |_) | | |  __/\ V  V /
 # |_| |_|\___/|_| |_| |_|\___|_.__/|_|  \___| \_/\_/
 
-prod_dev_path = '/home/verloc/dev/flexdx_xpert/logs/'
+FLEXDX_HOME = os.environ.get('FLEXDX_HOME')
+
+if FLEXDX_HOME:
+    prod_dev_path = "{}/logs/".format(FLEXDX_HOME)
+else:
+    prod_dev_path = "~"
+
+#prod_dev_path = '/home/verloc/dev/flexdx_xpert/logs/'
 #prod_dev_path = '/home/ubuntu/'
 
 #stderr redirection for debugging
