@@ -47,7 +47,7 @@ FLEXDX_HOME = os.environ.get('FLEXDX_HOME')
 if FLEXDX_HOME:
     prod_dev_path = "{}/logs/".format(FLEXDX_HOME)
 else:
-    prod_dev_path = "~"
+    prod_dev_path = "~/"
 
 #prod_dev_path = '/home/verloc/dev/flexdx_xpert/logs/'
 #prod_dev_path = '/home/ubuntu/'
