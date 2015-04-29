@@ -471,7 +471,7 @@ img.logo {
 #sp1_buttons,#sp2_buttons {
     font-size:0.7em;
     padding-right:10%;
-    width:400px;
+    width:100%;
     overflow:hidden;
 }
 
