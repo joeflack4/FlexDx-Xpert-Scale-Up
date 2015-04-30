@@ -229,9 +229,10 @@ $(document).ready ( function () {
                     }
                 }
             }
+            console.log("interclick_scen:",interclick_scen);
             if (interclick_scen != -1) {
                 /*Bind the event to the newly added scenario*/
-                $("[name^='interclick_" + interclick_scen + "_']").click( function () {
+                $("[name^='interclick_" + index + "_']").click( function () {
                     var id = ".inter_" + $(this).attr('name').split('interclick_')[1];
                     $(this).find('span').toggleClass('glyphicon-chevron-down glyphicon-chevron-up');
                     $(id).each( function ( index ) {
