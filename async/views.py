@@ -75,6 +75,8 @@ def homebrew_model_page(request):
             id, tmp_p = tempfile.mkstemp(suffix='.json',prefix='xpert_hb',
                         dir=settings.MEDIA_ROOT)
 
+            params['filename'] = tmp_p
+
             with open(tmp_p, 'w') as fp:
                 json.dump(params, fp)
 

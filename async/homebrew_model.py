@@ -401,8 +401,9 @@ class Algorithm:
         # return these functions
         return TXR, INVS, CDX
 
-def run (jdata):
+def run (jdata): #Comes here as python dict()
 #JP MOD removed the inputs, set to model inputs
+
     g.target_inc = float(jdata['model_inputs']['inc']) # 250.
     g.target_mdr = float(jdata['model_inputs']['mdr']) / 100.0 #3.7 / 100
     g.target_hiv = float(jdata['model_inputs']['hiv']) # 0.83
@@ -413,6 +414,8 @@ def run (jdata):
     g.sm_cost = float(jdata['model_inputs']['sm_cost']) #2.
     g.gxp_cost = float(jdata['model_inputs']['gxp_cost']) #15.
     g.sdgxp_cost = float(jdata['model_inputs']['sdgxp_cost']) - g.gxp_cost #30. - gxp_cost
+
+    tmp_filename = jdata['filename']
 
 
     outdata = {}

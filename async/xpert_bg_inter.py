@@ -87,7 +87,7 @@ def run(params):
         return U,L,E,A2,P2,I2
 # pjd-end
 
-    data = json.loads(params)
+    data = params
 
     int_select = data['int_select']
     target_inc = data['target_inc']
@@ -102,7 +102,7 @@ def run(params):
     sdgxp_cost = data['sdgxp_cost'] - gxp_cost
 
     json_filename = data['filename']
-    del data['filename']
+    #del data['filename'] Deleting it messes with the complexity of tests
 
     data['progress'] = -1
 
@@ -2878,5 +2878,5 @@ if __name__=='__main__':
     with open (sys.argv[1],'r') as fp:
         data = json.load(fp)
 
-    run(json.dumps(data))
+    run( data )
 

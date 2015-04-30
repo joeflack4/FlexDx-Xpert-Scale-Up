@@ -20,7 +20,9 @@ except:
 class HoBrModelRun(unittest.TestCase):
 
     def setUp(self):
-        self.data = {"ip": "127.0.0.1", 
+ 
+        self.data = {"filename" : "HBModelRunTest.json",
+                     "ip": "127.0.0.1", 
                      "ud_tests": {}, 
                      "tests": ["Smear"], 
                      "diag": {
@@ -58,11 +60,11 @@ class HoBrModelRun(unittest.TestCase):
 
     def test_A_TestExecution(self):
         #Does the model run?
-        homebrew_model.run( json.dumps(self.data) )
+        homebrew_model.run( self.data )
         with open(self.data['filename'], 'r') as fp:
             data = json.load(fp)
 
-        self.assertEqual(data['progress'], 8, 'Model ran all 9 strategies')
+        self.assertEqual(data['progress'], 8, 'Homebrew ran all 9 strategies')
 
 
 if __name__=='__main__':

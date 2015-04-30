@@ -34,7 +34,7 @@ class XpertModelRun(unittest.TestCase):
                      'homebrew': False, 
                      'int_select': 9, 
                      'gxp_cost': 15.0, 
-                     'filename' : 'ModelRunTest.json'}
+                     'filename' : 'XpertModelRunTest.json'}
         with open(self.data['filename'], 'w') as fp:
             json.dump(self.data, fp)    
 
@@ -44,11 +44,11 @@ class XpertModelRun(unittest.TestCase):
 
     def test_A_TestExecution(self):
         #Does the model run?
-        xpert_bg_inter.run( json.dumps(self.data) )
+        xpert_bg_inter.run( self.data )
         with open(self.data['filename'], 'r') as fp:
             data = json.load(fp)
 
-        self.assertEqual(data['progress'], 8, 'Model ran all 9 strategies')
+        self.assertEqual(data['progress'], 8, 'Xpert ran all 9 strategies')
 
 
 if __name__=='__main__':
