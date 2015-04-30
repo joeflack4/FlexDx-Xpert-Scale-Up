@@ -53,8 +53,8 @@ from datetime import datetime #for logging
 
 class Gl_Vars:
     def __init__(self):
-        self.ip_addr = ''
-        self.ud_strat_name = ''
+        self.ip_addr = 'Unknown'
+        self.ud_strat_name = 'User Defined'
         self.intopt = 0
         self.int_select = 9
         #Inputs for later
@@ -187,6 +187,8 @@ def json_write( filename, data ):
 def hb_log ( message ):
     with open (prod_dev_path + "homebrew.log", 'a') as fp:
         fp.write( '{} - ({}): {}\n'.format(datetime.now().strftime("%Y-%m-%d %H:%M:%S"),g.ip_addr, message ) )
+
+hb_log("------- Execution Begins -------")
 
 hb_log('Past Constant Definition')
 
@@ -415,8 +417,21 @@ def run (jdata): #Comes here as python dict()
     g.gxp_cost = float(jdata['model_inputs']['gxp_cost']) #15.
     g.sdgxp_cost = float(jdata['model_inputs']['sdgxp_cost']) - g.gxp_cost #30. - gxp_cost
 
-    tmp_filename = jdata['filename']
+    try:
+        g.ud_strat_name = jdata['ud_strat_name']
+    except:
+        pass
+    else:
+        del jdata['ud_strat_name']
 
+    try:
+        g.ip_addr = jdata['ip'];
+    except:
+        pass
+    else:
+        del jdata['ip']
+
+    tmp_filename = jdata['filename']
 
     outdata = {}
 
@@ -439,9 +454,9 @@ def run (jdata): #Comes here as python dict()
     open(tmp_filename, 'w').close()
 
     hb_log ("Writing the new data")
-#Switch the JSON over to write back to the pagei
-    json_write( tmp_filename, outdata ) #Makes it at least here...
-
+#Switch the JSON over to write back to the page
+    json_write( tmp_filename, outdata )
+     
 ###############################################################
 #END JPMOD
 ###############################################################
@@ -593,11 +608,10 @@ def run (jdata): #Comes here as python dict()
 ###############################################################
 
 
-    hb_log('jdata: ' + json.dumps(jdata))
-    hb_log('jdata.diag: ' + json.dumps(jdata['diag']))
+    hb_log('jdata (in JSON): ' + json.dumps(jdata))
 
 #LOAD THE HOMEBREW JPMOD
-    Alg9 = algfromdict(jdata)                 # convert json data into algorithm
+    Alg9 = algfromdict(jdata)                 # convert json data into algorithm; passed as python dict
 
     hb_log('Past the algfromdict() call')
 
@@ -2440,7 +2454,11 @@ def run (jdata): #Comes here as python dict()
             outdata['progress'] += 1
             json_write(tmp_filename, outdata)
 
+    hb_log("------- Execution Ends -------")
+
 if __name__=="__main__":
+
+    hb_log("Run from command line")
 
     if len(sys.argv) != 2:
         hb_log( "Command line arguments invalid" )
@@ -2448,24 +2466,8 @@ if __name__=="__main__":
 
     tmp_filename = sys.argv[1]
 
-    hb_log( " - Loading From " + tmp_filename + " -" )
+    hb_log( "Loading data from: {}".format(tmp_filename) )
     with open(tmp_filename, 'r') as fd:
         jdata = json.load(fd)
     
-    try:
-        g.ip_addr = jdata['ip'];
-    except:
-        pass
-    else:
-        del jdata['ip']
-
-    try:
-        g.ud_strat_name = jdata['ud_strat_name']
-    except:
-        g.ud_strat_name = "User Defined"
-    else:
-        del jdata['ud_strat_name']
-
     run ( jdata )
-
-hb_log ('Execution Ends')
