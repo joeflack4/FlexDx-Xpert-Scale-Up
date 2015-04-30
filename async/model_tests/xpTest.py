@@ -1,4 +1,14 @@
 import unittest
+import sys
+import os
+#This test file is occupied mainly with the existence
+#of the xpert model and the run() function that is used
+#to execute it
+
+#This is adding the parent directory to the python
+#search path to allow the import below to work with
+#the current model code.
+sys.path.append (os.path.split(os.getcwd())[0])
 
 try:
     import xpert_bg_inter
@@ -24,14 +34,6 @@ class XpertModelLoad(unittest.TestCase):
 
         self.assertEqual( type (f), type (xpert_bg_inter.run) )
 
-
-def suite():
-    suite = unittest.TestSuite()
-    suite.addTest(XpertModelLoad('test_A_XpertModuleLoaded'))
-    suite.addTest(XpertModelLoad('test_B_HasRunMember'))
-    suite.addTest(XpertModelLoad('test_C_HasRunFunc'))
-
-    return suite
 
 if __name__=='__main__':
     unittest.main()
