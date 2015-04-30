@@ -7,3 +7,4 @@ media/*.json
 media/*.xls
 xpert_su/xpert_config.py
 async/static/excel/
+tests/*.json

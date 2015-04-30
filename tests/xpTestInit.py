@@ -17,7 +17,7 @@ except:
     pass
 
 
-class XpertModelLoad(unittest.TestCase):
+class XpertModelInit(unittest.TestCase):
 
     def test_A_XpertModuleLoaded(self):
         #Did the model load?
