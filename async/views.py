@@ -66,7 +66,7 @@ def homebrew_model_page(request):
             except:
                 return render(request,"bad.html", { 'type':'malformed .json' })
 
-            print params
+            #print params
 
             params['ip'] = request.META['REMOTE_ADDR'] if request.META['REMOTE_ADDR'] else 'Unknown IP'
       
@@ -77,6 +77,8 @@ def homebrew_model_page(request):
 
             with open(tmp_p, 'w') as fp:
                 json.dump(params, fp)
+
+            print params
 
             #Run the model with the temp file as its first argument
             s = "echo python %s/async/homebrew_model.py " % (path_to_xpert_su)
@@ -149,11 +151,11 @@ def model_page(request):
                 params['sdgxp_cost'] = cd['t_sdgxp_cost']
 
                 params['homebrew'] = False
+                params['filename'] = tmp_p
 
                 with open(tmp_p,'w') as fp:
                     json.dump(params, fp)
 
-                params['filename'] = tmp_p
 
                 s = "echo %s/async/xpert_bg_inter.py " % (path_to_xpert_su)
                 s += "%s | at now" % (tmp_p)

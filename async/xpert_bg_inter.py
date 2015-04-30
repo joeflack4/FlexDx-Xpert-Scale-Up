@@ -2878,7 +2878,5 @@ if __name__=='__main__':
     with open (sys.argv[1],'r') as fp:
         data = json.load(fp)
 
-    data['filename'] = sys.argv[1]
-
     run(json.dumps(data))
 

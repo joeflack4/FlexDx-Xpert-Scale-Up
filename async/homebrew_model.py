@@ -45,7 +45,7 @@ from datetime import datetime #for logging
 FLEXDX_HOME = os.environ.get('FLEXDX_HOME')
 
 if FLEXDX_HOME:
-    prod_dev_path = "{}/logs/".format(FLEXDX_HOME)
+    prod_dev_path = "{}/".format(FLEXDX_HOME)
 else:
     prod_dev_path = "~/"
 
@@ -274,7 +274,7 @@ def hb_log ( message ):
 with open('WI4.json','r') as fd:
      jdata = json.load(fd)
 """
-
+#### COULD BE MAIN FUNCTION ####
 if len(sys.argv) != 2:
     hb_log( "Command line arguments invalid" )
     exit(0)
@@ -284,6 +284,10 @@ tmp_filename = sys.argv[1]
 hb_log( " - Loading From " + tmp_filename + " -" )
 with open(tmp_filename, 'r') as fd:
     jdata = json.load(fd)
+
+### Add call to function with jdata as parameter
+
+### COULD BE END OF MAIN FUNCTION
 
 #Getting info passed from django
 try:
