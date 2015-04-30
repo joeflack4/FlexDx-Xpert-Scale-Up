@@ -11,7 +11,7 @@ import os
 sys.path.append (os.path.split(os.getcwd())[0])
 
 try:
-    import xpert_bg_inter
+    from async import xpert_bg_inter
 except:
     xpert_bg_inter = False
     pass
@@ -21,18 +21,18 @@ class XpertModelLoad(unittest.TestCase):
 
     def test_A_XpertModuleLoaded(self):
         #Did the model load?
-        self.assertTrue(xpert_bg_inter)
+        self.assertTrue(xpert_bg_inter, 'No module loaded')
 
     def test_B_HasRunMember(self):
         #Does it have a .run member?
-        self.assertTrue(hasattr(xpert_bg_inter,'run'))
+        self.assertTrue(hasattr(xpert_bg_inter,'run'), 'No member run')
 
     def test_C_HasRunFunc(self):
         #Is that .run member a function?
         def f():
             pass
-
-        self.assertEqual( type (f), type (xpert_bg_inter.run) )
+        if self.assertTrue(hasattr(xpert_bg_inter,'run'), 'No member run'):
+            self.assertEqual( type (f), type (xpert_bg_inter.run), 'member run is not a function' )
 
 
 if __name__=='__main__':
