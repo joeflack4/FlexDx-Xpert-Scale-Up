@@ -32,8 +32,10 @@ to
 xpert_su/xpert_config.py
 
 If you do not set the FLEXDX_HOME environment variable the logs from the
-homebrew model will be put into ~.  If you set FLEXDX_HOME
-then the logs will go to FLEXDX_HOME/logs/. 
+homebrew model will be put into the current working directory.  When the
+homebrew is run from the web-model the logfiles will go into the repo
+home directory (same directory as the manage.py file).  If you 
+set FLEXDX_HOME then the logs will go to FLEXDX_HOME. 
 
 then type:
 
