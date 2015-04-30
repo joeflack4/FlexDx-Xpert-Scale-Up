@@ -60,9 +60,6 @@ class HoBrModelRun(unittest.TestCase):
         #Maybe delete the json file?  For now nothing
         pass
 
-class HoBrModelRunFunc(HoBrModelRun):
-    #Does the model run?
-
     def test_A_asFunction(self):
 
         homebrew_model.run( self.data )

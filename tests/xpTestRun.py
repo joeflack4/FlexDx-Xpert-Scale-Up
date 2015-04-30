@@ -45,10 +45,6 @@ class XpertModelRun(unittest.TestCase):
         #Maybe delete the json file?  For now nothing
         pass
 
-
-class XpertModelRunFunc(XpertModelRun):
-    #Does the model run?
-
     def test_A_asFunction(self):
     
         xpert_bg_inter.run( self.data )
