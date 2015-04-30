@@ -433,6 +433,8 @@ def run (jdata): #Comes here as python dict()
 
     tmp_filename = jdata['filename']
 
+    hb_log("Write Target Filename : {}".format(tmp_filename))
+
     outdata = {}
 
     outdata['int_select'] = g.int_select

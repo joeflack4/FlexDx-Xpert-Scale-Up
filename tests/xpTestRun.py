@@ -6,6 +6,9 @@ import os
 #model using setUp and tearDown functions that run 
 #before and after each test.  Tests are identified 
 #as functions starting with 'test'
+#Two Cases: First with run(), second with command
+#line
+
 
 
 #This is adding the parent directory to the python
@@ -42,14 +45,27 @@ class XpertModelRun(unittest.TestCase):
         #Maybe delete the json file?  For now nothing
         pass
 
-    def test_A_TestExecution(self):
-        #Does the model run?
+
+class XpertModelRunFunc(XpertModelRun):
+    #Does the model run?
+
+    def test_A_asFunction(self):
+    
         xpert_bg_inter.run( self.data )
+    
         with open(self.data['filename'], 'r') as fp:
             data = json.load(fp)
 
-        self.assertEqual(data['progress'], 8, 'Xpert ran all 9 strategies')
+        self.assertTrue(data, 'No data was loaded from the file as Function')
+    
+    def test_B_asCommandLine(self):
+    
+        os.system("../async/xpert_bg_inter.py {}".format(self.data['filename']))
+    
+        with open(self.data['filename'], 'r') as fp:
+            data = json.load(fp)
 
+        self.assertTrue(data, 'No data was loaded from the file as CommandLine')
 
 if __name__=='__main__':
     unittest.main()
