@@ -14,25 +14,24 @@ try:
     from async import xpert_bg_inter
 except:
     xpert_bg_inter = False
-    pass
 
 
 class XpertModelInit(unittest.TestCase):
 
     def test_A_XpertModuleLoaded(self):
         #Did the model load?
-        self.assertTrue(xpert_bg_inter, 'No module loaded')
+        self.assertTrue(xpert_bg_inter, 'Module Xpert: not loaded')
 
-    def test_B_HasRunMember(self):
+    def test_B_XpertHasRunMember(self):
         #Does it have a .run member?
-        self.assertTrue(hasattr(xpert_bg_inter,'run'), 'No member run')
+        self.assertTrue(hasattr(xpert_bg_inter,'run'), 'Module Xpert: no member run')
 
-    def test_C_HasRunFunc(self):
+    def test_C_XpertHasRunFunc(self):
         #Is that .run member a function?
         def f():
             pass
-        if self.assertTrue(hasattr(xpert_bg_inter,'run'), 'No member run'):
-            self.assertEqual( type (f), type (xpert_bg_inter.run), 'member run is not a function' )
+        if self.assertTrue(hasattr(xpert_bg_inter,'run'), 'Module Xpert: no member run'):
+            self.assertEqual( type (f), type (xpert_bg_inter.run), 'Module Xpert: run is not a function' )
 
 
 if __name__=='__main__':
