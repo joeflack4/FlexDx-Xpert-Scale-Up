@@ -2,9 +2,10 @@ import unittest
 import json
 import sys
 import os
-#This test file is occupied mainly with the existence
-#of the xpert model and the run() function that is used
-#to execute it
+#This test file is an example of running the model using
+#setUp and tearDown functions that run before and after 
+#each test.  Tests are identified as functions starting
+#with 'test'
 
 #This is adding the parent directory to the python
 #search path to allow the import below to work with
