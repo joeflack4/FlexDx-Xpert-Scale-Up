@@ -571,9 +571,9 @@ def run (jdata): #Comes here as python dict()
                 # also: NB I haven't put in any checking that the relevant fields have been filled in with valid values
                 # assuming that the delay on user defined DST is t_smgxp and 0 ltfu
                 if test[0:3]=='DST':          #is it a DST test - NB this will break if someone calls a normal test DST*
-                    testdict[test] = Diagnostic( [1,1], 0, K[test]['cost'], t_smgxp, 0, label=test, DRsens=K[test]['sens'], DRspec=K[test]['spec'])
+                    testdict[test] = Diagnostic( [1,1], 0, K[test]['cost'], g.t_smgxp, 0, label=test, DRsens=K[test]['sens'], DRspec=K[test]['spec'])
                 else:
-                    testdict[test] = Diagnostic( [K[test]['senssmn'],K[test]['senssmp']], K[test]['spec'], K[test]['cost'], t_smgxp, K[test]['spec'], label=test, DRsens=0, DRspec=1)
+                    testdict[test] = Diagnostic( [K[test]['senssmn'],K[test]['senssmp']], K[test]['spec'], K[test]['cost'], g.t_smgxp, K[test]['spec'], label=test, DRsens=0, DRspec=1)
 
         hb_log('algfromdict: After ud_tests')
         K = J['diag']
