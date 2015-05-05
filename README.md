@@ -4,7 +4,7 @@
 
 #FlexDx Xpert Scale Up
 
-This README should help anybody interested in running the FlexDx Tuberculosis
+This README doc should help anybody interested in running the FlexDx Tuberculosis
 transmission model using the web front-end. 
 
 This model will run on any BSD based system with the GNU/Unix 'at' scheduler
