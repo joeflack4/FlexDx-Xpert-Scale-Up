@@ -11,7 +11,7 @@ This model will run on any BSD based system with the GNU/Unix 'at' scheduler
 command (OSX, Linux, etc.).  As long as the system runs python it should work.
 You will need to install several python libraries, I recommend pip for that.
 The file pip freeze in the root directory contains a list, but installing Django, 
-matplotlib, numpy and scipy should install all the other dependencies.
+matplotlib, numpy, scipy and Marmir should install all the other dependencies.
 
 You should probably use a system like virtualenv to install the libraries
 locally but it will work perfectly fine if you install the libraries globally.
