@@ -46,7 +46,8 @@ $(document).ready(function () {
 
     $(document).on('mouseup keyup', function( e ){
         if ( FLEXDX_HB.not_menu_hover || e.which==27) 
-            FLEXDX_HB.active_menu.hide();
+            if ( FLEXDX_HB.active_menu != undefined )
+                FLEXDX_HB.active_menu.hide();
     });
     /* end */
 

@@ -229,7 +229,6 @@ $(document).ready ( function () {
                     }
                 }
             }
-            console.log("interclick_scen:",interclick_scen);
             if (interclick_scen != -1) {
                 /*Bind the event to the newly added scenario*/
                 $("[name^='interclick_" + index + "_']").click( function () {
